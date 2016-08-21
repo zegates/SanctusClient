@@ -20,7 +20,6 @@ import javax.persistence.OneToMany;
  *
  * @author Sandaruwan
  */
-@Entity
 public class Orders implements Serializable {
 
     public List<OrderDetail> getOrderDetails() {

@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
  *
  * @author Sandaruwan
  */
-@Entity
 public class Metric implements Serializable {
 
     @OneToMany(mappedBy = "metric")

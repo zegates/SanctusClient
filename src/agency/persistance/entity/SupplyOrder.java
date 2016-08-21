@@ -20,7 +20,6 @@ import javax.persistence.OneToMany;
  *
  * @author Sandaruwan
  */
-@Entity
 public class SupplyOrder implements Serializable {
 
     @OneToMany(mappedBy = "supplyOrder", cascade = CascadeType.ALL)

@@ -17,7 +17,6 @@ import javax.persistence.OneToMany;
  *
  * @author Sandaruwan
  */
-@Entity
 public class SupplyOrderDetail implements Serializable {
 
     @OneToMany(mappedBy = "supplyOrderDetail")
