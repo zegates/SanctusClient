@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" language="groovy" pageWidth="212" pageHeight="385" columnWidth="172" leftMargin="20" rightMargin="20" topMargin="10" bottomMargin="5" isIgnorePagination="true">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="21"/>
+	<parameter name="Orderid" class="java.lang.String"/>
+	<parameter name="Date" class="java.lang.String"/>
+	<parameter name="Time" class="java.lang.String"/>
+	<parameter name="CustName" class="java.lang.String"/>
+	<parameter name="Total" class="java.lang.String"/>
+	<parameter name="Discount" class="java.lang.String"/>
+	<parameter name="Paid" class="java.lang.String"/>
+	<parameter name="Balance" class="java.lang.String"/>
+	<parameter name="VehicleNo" class="java.lang.String"/>
+	<field name="Item Code" class="java.lang.String"/>
+	<field name="Item Name" class="java.lang.String"/>
+	<field name="Quantity" class="java.lang.String"/>
+	<field name="Selling Price" class="java.lang.String"/>
+	<field name="Sub Total" class="java.lang.String"/>
+	<field name="Supply ID" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="1" width="172" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Lobster 1.3" size="12" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Gamlath Tyre Service]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="67" width="172" height="1"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="19" width="70" height="35"/>
+				<textElement>
+					<font fontName="Droid Sans"/>
+				</textElement>
+				<text><![CDATA[Colombo Rd, Paradise, Kuruwita]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="19" width="72" height="35"/>
+				<textElement textAlignment="Right">
+					<font fontName="Droid Sans"/>
+				</textElement>
+				<text><![CDATA[045-2264600
+071-6448943
+077-3226515]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="55" width="44" height="11"/>
+				<textElement>
+					<font fontName="Droid Sans" size="9" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Visit Us :-  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="55" width="127" height="11"/>
+				<textElement textAlignment="Right">
+					<font fontName="Droid Sans" size="9" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[www.gamlathtyreservice.com]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="71" splitType="Stretch">
+			<textField>
+				<reportElement x="115" y="14" width="57" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Time}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="32" y="14" width="58" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="42" width="172" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CustName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="0" width="116" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Orderid}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="90" y="14" width="25" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Time ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="28" width="100" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Customer Name :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="14" width="32" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="48" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Order ID :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="69" width="172" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="56" width="68" height="13"/>
+				<textElement>
+					<font fontName="Droid Sans"/>
+				</textElement>
+				<text><![CDATA[Vehicle No :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="68" y="56" width="104" height="13"/>
+				<textElement textAlignment="Right">
+					<font fontName="Droid Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{VehicleNo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="44" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Item ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="14" width="82" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sub Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="44" y="0" width="128" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Item Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="14" width="60" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Unit Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="14" width="30" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Qty]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="28" width="172" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement x="100" y="14" width="72" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Sub Total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="14" width="40" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["x "+$F{Quantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="70" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Item Code}+"-"+$F{Supply ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="0" width="102" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Item Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="14" width="60" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Selling Price}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="109" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="17" width="59" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total Bill]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="2" width="59" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Discount (-)]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="70" y="17" width="102" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Droid Sans" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="2" width="102" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Droid Sans" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Discount}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="70" y="16" width="102" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="70" y="34" width="102" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Droid Sans" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Paid}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="70" y="31" width="102" height="1"/>
+			</line>
+			<line>
+				<reportElement x="70" y="33" width="102" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="70" y="48" width="102" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Droid Sans" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Balance}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="48" width="59" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Due]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="34" width="59" height="14"/>
+				<textElement>
+					<font fontName="Droid Sans" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Paid]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="1" width="172" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="64" width="172" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="65" width="90" height="44" forecolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="90" splitType="Stretch">
+			<staticText>
+				<reportElement x="-1" y="47" width="172" height="29"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Segoe UI" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Items cannot be exchanged or refunded after purchased.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="47" width="172" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="75" width="172" height="1"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="76" width="172" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[System By ZEGATES +94 713 833 068]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="115" y="35" width="56" height="11"/>
+				<textElement>
+					<font fontName="Droid Sans" size="8" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Customer Sign]]></text>
+			</staticText>
+			<line>
+				<reportElement x="115" y="33" width="56" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="2" y="35" width="68" height="11"/>
+				<textElement>
+					<font fontName="Droid Sans" size="8" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Customer Name]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="33" width="68" height="1"/>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" language="groovy" pageWidth="609" pageHeight="384" columnWidth="569" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="5">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="20"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Orderid" class="java.lang.String"/>
+	<parameter name="Date" class="java.lang.String"/>
+	<parameter name="Time" class="java.lang.String"/>
+	<parameter name="CustName" class="java.lang.String"/>
+	<parameter name="Total" class="java.lang.String"/>
+	<parameter name="Discount" class="java.lang.String"/>
+	<parameter name="Paid" class="java.lang.String"/>
+	<parameter name="Balance" class="java.lang.String"/>
+	<field name="Item Code" class="java.lang.String"/>
+	<field name="Item Name" class="java.lang.String"/>
+	<field name="Quantity" class="java.lang.String"/>
+	<field name="Selling Price" class="java.lang.String"/>
+	<field name="Sub Total" class="java.lang.String"/>
+	<field name="Supply ID" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="201" y="0" width="167" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="14"/>
+				</textElement>
+				<text><![CDATA[Gamlath Tire Service]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="29" splitType="Stretch">
+			<textField>
+				<reportElement x="70" y="1" width="100" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI Semibold" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Orderid}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="1" width="70" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI Semibold" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Order ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="184" y="1" width="32" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI Semibold" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="216" y="1" width="100" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI Semibold" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="427" y="1" width="42" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI Semibold" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Time ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="469" y="1" width="100" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Segoe UI Semibold" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Time}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="15" width="100" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI Semibold" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Customer Name]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="101" y="15" width="326" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI Semibold" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CustName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="1" width="100" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI Semibold" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Item ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="1" width="183" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI Semibold" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Item Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="283" y="1" width="54" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Segoe UI Semibold" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Item Qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="337" y="1" width="114" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Segoe UI Semibold" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Unit Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="451" y="1" width="118" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Segoe UI Semibold" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sub Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Item Code}+"-"+$F{Supply ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="183" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Item Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="283" y="0" width="54" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Segoe UI" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Quantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="337" y="0" width="114" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Segoe UI" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Selling Price}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="451" y="0" width="118" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Segoe UI" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Sub Total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="369" y="16" width="59" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI Semibold" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total Bill]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="429" y="16" width="138" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Segoe UI Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Total}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="429" y="15" width="138" height="1"/>
+			</line>
+			<line>
+				<reportElement x="429" y="30" width="138" height="1"/>
+			</line>
+			<line>
+				<reportElement x="429" y="32" width="138" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="369" y="33" width="59" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI Semibold" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Paid]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="369" y="1" width="59" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI Semibold" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Discount (-)]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="429" y="1" width="138" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Segoe UI Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Discount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="33" width="138" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Segoe UI Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Paid}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="47" width="138" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Segoe UI Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Balance}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="369" y="47" width="59" height="14"/>
+				<textElement>
+					<font fontName="Segoe UI Semibold" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Due]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="44" width="336" height="14"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Segoe UI" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Items cannot be exchanged or refunded after purchased.]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="336" height="14"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Segoe UI" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[www.zegates.com]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
