@@ -4,16 +4,9 @@
  */
 package agency.persistance.factory;
 
-import agency.persistance.controller.ConstructionJpaController;
-import agency.persistance.controller.ItemJpaController;
-import agency.persistance.controller.LogSessionJpaController;
-import agency.persistance.controller.LogUserJpaController;
-import agency.persistance.controller.ManufacturerJpaController;
-import agency.persistance.controller.OrdersJpaController;
-import agency.persistance.controller.SupplierJpaController;
-import agency.persistance.controller.SupplyOrderDetailJpaController;
-import agency.persistance.controller.SupplyOrderJpaController;
+
 import agency.persistance.controller.remote.LogUserController;
+import agency.persistance.controller.remote.SupplierController;
 import agency.persistance.controller.service.LogUserControllerService;
 import localhost.agency.loguser.LogUserService;
 
@@ -23,9 +16,9 @@ import localhost.agency.loguser.LogUserService;
  */
 public class ControllerFactory {
 
-    private static OrdersJpaController ojc;
-    private static ItemJpaController ijc;
-    private static SupplierJpaController sjc;
+    private static OrdersController ojc;
+    private static ItemController ijc;
+    private static SupplierController sjc;
     private static LogUserController luc;
 
     static {

@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
  *
  * @author Sandaruwan
  */
-@Entity
 public class Manufacturer implements Serializable, Comparable<Manufacturer> {
 
     @OneToMany(mappedBy = "manufacturer")

@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
  *
  * @author Thilina
  */
-@Entity
 public class Category {
     
     @OneToMany(mappedBy = "category")

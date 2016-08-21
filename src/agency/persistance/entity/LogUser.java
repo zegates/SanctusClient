@@ -18,7 +18,6 @@ import javax.persistence.OneToMany;
  *
  * @author Sandaruwan
  */
-@Entity
 public class LogUser implements Serializable {
 
     @OneToMany(mappedBy = "logUser")
