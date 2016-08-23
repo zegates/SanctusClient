@@ -29,6 +29,7 @@ import agency.other.SearchTblsupplier;
 import agency.other.ProgressRenderer;
 import agency.persistance.controller.remote.ItemController;
 import agency.persistance.controller.remote.ManufacturerController;
+import agency.persistance.controller.remote.MetricController;
 import agency.persistance.controller.remote.SupplyOrderDetailController;
 import agency.persistance.factory.ControllerFactory;
 import com.zegates.sanctus.services.remote.Category;
@@ -47,6 +48,7 @@ public class ItemsFrame extends javax.swing.JInternalFrame implements Observer {
     private ItemController ijc;
     private ManufacturerController mjc;
     private SupplyOrderDetailController stjc;
+    private MetricController mc;
     // DTM of the Updation Table
     private DefaultTableModel dtmItemDetails;
     private DefaultTableModel dtmItemLegend;
@@ -74,6 +76,7 @@ public class ItemsFrame extends javax.swing.JInternalFrame implements Observer {
         ijc = ControllerFactory.getItemController();
         mjc = ControllerFactory.getManufacturerController();
         stjc = ControllerFactory.getSupplyOrderDetailController();
+        mc = ControllerFactory.getMetricController();
 
         dtmItemDetails = (DefaultTableModel) tblItemDetails.getModel();
         dtmItemLegend = (DefaultTableModel) tblLegend.getModel();
@@ -697,7 +700,7 @@ public class ItemsFrame extends javax.swing.JInternalFrame implements Observer {
     }//GEN-LAST:event_txtItemNameKeyReleased
 
     private void btnAddConstructionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddConstructionActionPerformed
-        new AddConstructionFrame(null, true).setVisible(true);
+        new AddMetricFrame(null, true).setVisible(true);
         refreshConstructions();
     }//GEN-LAST:event_btnAddConstructionActionPerformed
 
@@ -720,7 +723,7 @@ public class ItemsFrame extends javax.swing.JInternalFrame implements Observer {
                 Manufacturer manufacturer = mjc.findManufacturerForName(
                         (String) cmbManufacturer.getSelectedItem());
                
-                Metric construction = cjc.getConstructionForName(
+                Metric metric = mc.findMetricForName(
                         (String) cmbConstruction.getSelectedItem());
 
 
@@ -944,7 +947,7 @@ public class ItemsFrame extends javax.swing.JInternalFrame implements Observer {
 
     private void refreshConstructions() {
         cmbConstruction.removeAllItems();
-        List<Metric> constructions = cjc.findConstructionEntities();
+        List<Metric> constructions = mc.findMetricEntities();
         for (Metric construction : constructions) {
             cmbConstruction.addItem(construction.getName());
         }

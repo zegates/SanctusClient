@@ -5,27 +5,25 @@
 package agency.gui;
 
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.Metric;
 
 /**
  *
  * @author Gayath
  */
-public class AddConstructionFrame extends javax.swing.JDialog {
+public class AddMetricFrame extends javax.swing.JDialog {
 
-    private ConstructionController cjc;
+//    private ConstructionController cjc;
 
     /**
      * Creates new form AddMetricFrame
      */
-    public AddConstructionFrame(java.awt.Frame parent, boolean modal) {
+    public AddMetricFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocation(300, 200);
-        cjc = ControllerFactory.getConstructionController();
+//        cjc = ControllerFactory.getConstructionController();
         refreshFields();
 
     }
@@ -136,11 +134,11 @@ public class AddConstructionFrame extends javax.swing.JDialog {
                 + "add Construction " + txtCatName.getText() + "?", "Confirm",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (conf == 0) {
-            try {
+//            try {
                 Metric construction = new Metric();
                 construction.setName(txtCatName.getText());
                 construction.setMid(stripOutID(txtCatID.getText()));
-                cjc.create(construction);
+//                cjc.create(construction);
 
                 conf = JOptionPane.showConfirmDialog(null, "Construction was added "
                         + "successfully\n Continue further adding ?", "Successful",
@@ -151,13 +149,13 @@ public class AddConstructionFrame extends javax.swing.JDialog {
                 } else {
                     this.dispose();
                 }
-            } catch (ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "Error occured in adding .\n"
-                                    + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Error occured in adding .\n"
-                                    + ex.getMessage(), "Remote SQL Error", JOptionPane.ERROR_MESSAGE);
-            }
+//            } catch (ClassNotFoundException ex) {
+//                JOptionPane.showMessageDialog(null, "Error occured in adding .\n"
+//                                    + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//            } catch (SQLException ex) {
+//                JOptionPane.showMessageDialog(null, "Error occured in adding .\n"
+//                                    + ex.getMessage(), "Remote SQL Error", JOptionPane.ERROR_MESSAGE);
+//            }
         }
 ////        System.gc();
     }//GEN-LAST:event_btnAddCategoryActionPerformed
@@ -183,20 +181,21 @@ public class AddConstructionFrame extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddConstructionFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddMetricFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddConstructionFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddMetricFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddConstructionFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddMetricFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddConstructionFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddMetricFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AddConstructionFrame dialog = new AddConstructionFrame(new javax.swing.JFrame(), true);
+                AddMetricFrame dialog = new AddMetricFrame(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -219,7 +218,7 @@ public class AddConstructionFrame extends javax.swing.JDialog {
 
     public void refreshFields() {
         // Set Metric ID
-        txtCatID.setText(getCatID(cjc.getConstructionCount(), 8));
+//        txtCatID.setText(getCatID(cjc.getConstructionCount(), 8));
 ////        System.gc();
 
     }

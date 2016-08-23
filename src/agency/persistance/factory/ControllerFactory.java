@@ -9,6 +9,7 @@ import agency.persistance.controller.remote.ItemController;
 import agency.persistance.controller.remote.LogSessionController;
 import agency.persistance.controller.remote.LogUserController;
 import agency.persistance.controller.remote.ManufacturerController;
+import agency.persistance.controller.remote.MetricController;
 import agency.persistance.controller.remote.OrdersController;
 import agency.persistance.controller.remote.SupplierController;
 import agency.persistance.controller.remote.SupplyOrderController;
@@ -17,6 +18,7 @@ import agency.persistance.controller.service.ItemControllerService;
 import agency.persistance.controller.service.LogSessionControllerService;
 import agency.persistance.controller.service.LogUserControllerService;
 import agency.persistance.controller.service.ManufacturerControllerService;
+import agency.persistance.controller.service.MetricControllerService;
 import agency.persistance.controller.service.OrdersControllerService;
 import agency.persistance.controller.service.SupplierControllerService;
 import agency.persistance.controller.service.SupplyOrderControllerService;
@@ -35,6 +37,7 @@ public class ControllerFactory {
     private static LogUserController luc;
     private static SupplyOrderController soc;
     private static LogSessionController lsc;
+    private static MetricController mc;
 
     static {
 //        ojc = new OrdersController(EMFHandler.getEmf());
@@ -49,6 +52,8 @@ public class ControllerFactory {
         
         soc = new SupplyOrderControllerService();
         lsc = new LogSessionControllerService();
+        
+        mc = new MetricControllerService();
     }
 
     public static ItemController getItemController() {
@@ -82,5 +87,9 @@ public class ControllerFactory {
     public static LogUserController getLogUserController() {
 //        return new LogUserController(EMFHandler.getEmf());
         return luc;
+    }
+
+    public static MetricController getMetricController() {
+        return mc;
     }
 }

@@ -4,16 +4,13 @@
  */
 package agency.gui;
 
+import agency.persistance.controller.remote.SupplyOrderController;
 import java.util.List;
-import javax.naming.ldap.ControlFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import agency.persistance.controller.SupplyOrderJpaController;
-import agency.persistance.entity.OrderDetail;
-import agency.persistance.entity.Orders;
-import agency.persistance.entity.SupplyOrder;
-import agency.persistance.entity.SupplyOrderDetail;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.SupplyOrder;
+import com.zegates.sanctus.services.remote.SupplyOrderDetail;
 
 /**
  *
@@ -21,7 +18,7 @@ import agency.persistance.factory.ControllerFactory;
  */
 public class ViewSupplyOrder extends javax.swing.JDialog {
 
-    private SupplyOrderJpaController sojc;
+    private SupplyOrderController sojc;
     private DefaultTableModel dtm;
 
     /**
@@ -30,7 +27,7 @@ public class ViewSupplyOrder extends javax.swing.JDialog {
     public ViewSupplyOrder(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        sojc = ControllerFactory.getSupplyOrderJpaController();
+        sojc = ControllerFactory.getSupplyOrderController();
         dtm = (DefaultTableModel) tblSupplyOrderDetails.getModel();
 //        System.gc();
     }

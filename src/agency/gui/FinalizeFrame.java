@@ -125,9 +125,9 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
                     Orders ob1 = (Orders) o1;
                     Orders ob2 = (Orders) o2;
 
-                    if (ob1.getDateAdded().after(ob2.getDateAdded())) {
+                    if (ob1.getDateAdded().getDate().after(ob2.getDateAdded().getDate())) {
                         return 1;
-                    } else if (ob1.getDateAdded().before(ob2.getDateAdded())) {
+                    } else if (ob1.getDateAdded().getDate().before(ob2.getDateAdded().getDate())) {
                         return -1;
                     } else {
                         return 0;
@@ -137,9 +137,9 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
                     Orders ob1 = (Orders) o1;
                     SupplyOrder ob2 = (SupplyOrder) o2;
 
-                    if (ob1.getDateAdded().after(ob2.getDateAdded())) {
+                    if (ob1.getDateAdded().getDate().after(ob2.getDateAdded().getDate())) {
                         return 1;
-                    } else if (ob1.getDateAdded().before(ob2.getDateAdded())) {
+                    } else if (ob1.getDateAdded().getDate().before(ob2.getDateAdded().getDate())) {
                         return -1;
                     } else {
                         return 0;
@@ -149,9 +149,9 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
                     SupplyOrder ob1 = (SupplyOrder) o1;
                     Orders ob2 = (Orders) o2;
 
-                    if (ob1.getDateAdded().after(ob2.getDateAdded())) {
+                    if (ob1.getDateAdded().getDate().after(ob2.getDateAdded().getDate())) {
                         return 1;
-                    } else if (ob1.getDateAdded().before(ob2.getDateAdded())) {
+                    } else if (ob1.getDateAdded().getDate().before(ob2.getDateAdded().getDate())) {
                         return -1;
                     } else {
                         return 0;
@@ -161,9 +161,9 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
                     SupplyOrder ob1 = (SupplyOrder) o1;
                     SupplyOrder ob2 = (SupplyOrder) o2;
 
-                    if (ob1.getDateAdded().after(ob2.getDateAdded())) {
+                    if (ob1.getDateAdded().getDate().after(ob2.getDateAdded().getDate())) {
                         return 1;
-                    } else if (ob1.getDateAdded().before(ob2.getDateAdded())) {
+                    } else if (ob1.getDateAdded().getDate().before(ob2.getDateAdded().getDate())) {
                         return -1;
                     } else {
                         return 0;
@@ -172,43 +172,42 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
                 return 0;
             }
         });
-        
-         
-        double wages=0d;
+
+        double wages = 0d;
         dtm.setRowCount(0);
         for (Object object : list) {
             if (object instanceof Orders) {
                 Orders o = (Orders) object;
                 dtm.addRow(new Object[]{
-                            "Cust Order",
-                            OtherController.formatCode("OD", o.getOid(), 8),
-                            o.getCustName(),
-                            o.getTpNo(),
-                            o.getDateAdded(),
-                            o.getTimeAdded(),
-                            OtherController.formatPrice(o.getDiscount()),
-                            OtherController.formatPrice(o.getTotal())
-                        });
+                    "Cust Order",
+                    OtherController.formatCode("OD", o.getOid(), 8),
+                    o.getCustName(),
+                    o.getTpNo(),
+                    o.getDateAdded(),
+                    o.getTimeAdded(),
+                    OtherController.formatPrice(o.getDiscount()),
+                    OtherController.formatPrice(o.getTotal())
+                });
                 ordersTotal += o.getTotal() - o.getDiscount();
                 List<OrderDetail> orderDetails = o.getOrderDetails();
                 for (int i = 0; i < orderDetails.size(); i++) {
                     OrderDetail orderDetail = orderDetails.get(i);
-                    wages += orderDetail.getQty()*orderDetail.getSupplyOrderDetail().getBuyingPrice();
+                    wages += orderDetail.getQty() * orderDetail.getSupplyOrderDetail().getBuyingPrice();
                 }
-                
+
             } else if (object instanceof SupplyOrder) {
                 SupplyOrder so = (SupplyOrder) object;
                 if (so.getSoid() != -1) {
                     dtm.addRow(new Object[]{
-                                "Supply Order",
-                                OtherController.formatCode("SU", so.getSoid(), 8),
-                                so.getSupplier().getName(),
-                                so.getSupplier().getTpno(),
-                                so.getDateAdded(),
-                                so.getTimeAdded(),
-                                OtherController.formatPrice(so.getDiscount()),
-                                OtherController.formatPrice(so.getTotal())
-                            });
+                        "Supply Order",
+                        OtherController.formatCode("SU", so.getSoid(), 8),
+                        so.getSupplier().getName(),
+                        so.getSupplier().getTpno(),
+                        so.getDateAdded(),
+                        so.getTimeAdded(),
+                        OtherController.formatPrice(so.getDiscount()),
+                        OtherController.formatPrice(so.getTotal())
+                    });
                     supplyTotal += so.getTotal() - so.getDiscount();
                 }
             }
@@ -560,8 +559,12 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
     private void btnFinalizeSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizeSessionActionPerformed
         int conf = JOptionPane.showConfirmDialog(null, "Are sure to finalize this session", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (conf == 0) {
-            Date date = new Date(Calendar.getInstance().getTimeInMillis());
-            Time time = new Time(Calendar.getInstance().getTimeInMillis());
+            Date dateSQL = new Date(Calendar.getInstance().getTimeInMillis());
+            Time timeSQL = new Time(Calendar.getInstance().getTimeInMillis());
+            com.zegates.sanctus.services.remote.Date date = new com.zegates.sanctus.services.remote.Date();
+            date.setDate(dateSQL);
+            com.zegates.sanctus.services.remote.Time time = new com.zegates.sanctus.services.remote.Time();
+            time.setTime(timeSQL);
             session.setFinalised(true);
             session.setDateEnded(date);
             session.setTimeEnded(time);
@@ -573,7 +576,7 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
                 new LoginFrame().setVisible(true);
                 this.dispose();
                 mainFrame.dispose();
-        //        System.gc();
+                //        System.gc();
             } catch (NonexistentEntityException ex) {
                 JOptionPane.showMessageDialog(null, "Entity Error "
                         + ex.getMessage(), "Error ", JOptionPane.ERROR_MESSAGE);

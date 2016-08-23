@@ -4,7 +4,6 @@
  */
 package agency.gui;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,13 +20,13 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 import agency.other.OtherController;
-import agency.persistance.controller.OrdersJpaController;
-import agency.persistance.controller.SupplyOrderDetailJpaController;
 import agency.persistance.controller.exceptions.NonexistentEntityException;
-import agency.persistance.entity.OrderDetail;
-import agency.persistance.entity.Orders;
-import agency.persistance.entity.SupplyOrderDetail;
+import agency.persistance.controller.remote.OrdersController;
+import agency.persistance.controller.remote.SupplyOrderDetailController;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.OrderDetail;
+import com.zegates.sanctus.services.remote.Orders;
+import com.zegates.sanctus.services.remote.SupplyOrderDetail;
 
 /**
  *
@@ -35,8 +34,8 @@ import agency.persistance.factory.ControllerFactory;
  */
 public class ViewOrder extends javax.swing.JDialog {
 
-    private OrdersJpaController ojc;
-    private SupplyOrderDetailJpaController sodjc;
+    private OrdersController ojc;
+    private SupplyOrderDetailController sodjc;
     private DefaultTableModel dtm;
 
     /**
@@ -45,8 +44,8 @@ public class ViewOrder extends javax.swing.JDialog {
     public ViewOrder(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        ojc = ControllerFactory.getOrdersJpaController();
-        sodjc = ControllerFactory.getSupplyOrderDetailJpaController();
+        ojc = ControllerFactory.getOrdersController();
+        sodjc = ControllerFactory.getSupplyOrderDetailController();
         dtm = (DefaultTableModel) tblorderDetail.getModel();
         btnDoPayment.setEnabled(false);
         btnDeleteOrder.setEnabled(false);
@@ -64,8 +63,8 @@ public class ViewOrder extends javax.swing.JDialog {
     public ViewOrder(java.awt.Frame parent, boolean modal, long oid) {
         super(parent, modal);
         initComponents();
-        ojc = ControllerFactory.getOrdersJpaController();
-        sodjc = ControllerFactory.getSupplyOrderDetailJpaController();
+        ojc = ControllerFactory.getOrdersController();
+        sodjc = ControllerFactory.getSupplyOrderDetailController();
         dtm = (DefaultTableModel) tblorderDetail.getModel();
         txtID.setText(oid + "");
         btnDoPayment.setEnabled(false);

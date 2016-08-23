@@ -146,7 +146,6 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
         });
         cmbManufacturer.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "focusItemName");
 
-
         // Item Name
         cmbItemName.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "focusItemCode");
         cmbItemName.getActionMap().put("focusItemCode", new AbstractAction() {
@@ -352,7 +351,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
             }
         });
 
-     //   System.gc();
+        //   System.gc();
     }
 
     /**
@@ -915,7 +914,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
             lblRemainder.setText("");
             txtQuantity.setText("");
         }
-       // System.gc();
+        // System.gc();
     }//GEN-LAST:event_cmbBatchIDItemStateChanged
 
     private void txtQuantityKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantityKeyReleased
@@ -953,7 +952,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
             lblRemainder.setText(remainingQty + "");
             lblStat.setIcon(imgWrong);
         }
-       // System.gc();
+        // System.gc();
     }
 
     private void btnAddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddItemActionPerformed
@@ -962,9 +961,9 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
         boolean exist = false;
         for (int i = 0; i < dtmOrder.getRowCount(); i++) {
             if (dtmOrder.getValueAt(i, 0).equals(addingItemCode)) {
-                
+
                 if (dtmOrder.getValueAt(i, 4).equals(price)) {
-                    
+
                     int qty = Integer.parseInt((String) dtmOrder.getValueAt(i, 3));
                     double sellingPrice = Double.parseDouble((String) dtmOrder.getValueAt(i, 4));
                     total -= qty * sellingPrice;
@@ -974,18 +973,18 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
                     dtmOrder.setValueAt((qty * sellingPrice) + "", i, 5);
                     exist = true;
                     setTotal();
-                } else{
+                } else {
                     exist = false;
                 }
             }
         }
         if (!exist) {
             dtmOrder.addRow(new Object[]{addingItemCode,
-                        cmbManufacturer.getSelectedItem() + " "
-                        + cmbItemName.getSelectedItem(),
-                        cmbBatchID.getSelectedItem(),
-                        txtQuantity.getText(), txtSellingPrice.getText(),
-                        txtSubTotal.getText(), spinnerDiscount.getValue()});
+                cmbManufacturer.getSelectedItem() + " "
+                + cmbItemName.getSelectedItem(),
+                cmbBatchID.getSelectedItem(),
+                txtQuantity.getText(), txtSellingPrice.getText(),
+                txtSubTotal.getText(), spinnerDiscount.getValue()});
             int qty = Integer.parseInt(txtQuantity.getText());
             double sellingPrice = Double.parseDouble(txtSellingPrice.getText());
             total += (qty * sellingPrice);
@@ -999,7 +998,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
         if (dtmOrder.getRowCount() > 0) {
             btnAddOrder.setEnabled(true);
         }
-      //  System.gc();
+        //  System.gc();
     }//GEN-LAST:event_btnAddItemActionPerformed
 
     private void tblOrdersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOrdersMouseClicked
@@ -1012,7 +1011,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
                 btnDeleteRow.setEnabled(false);
             }
         }
-     //   System.gc();
+        //   System.gc();
     }//GEN-LAST:event_tblOrdersMouseClicked
 
     private void btnDeleteRowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteRowActionPerformed
@@ -1021,13 +1020,13 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
             dtmOrder.removeRow(row);
             txtQuantityKeyReleased(null);
             btnDeleteRow.setEnabled(false);
-           // System.gc();
+            // System.gc();
         }
     }//GEN-LAST:event_btnDeleteRowActionPerformed
 
     private void txtQuantityFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantityFocusGained
         txtQuantity.selectAll();
-      //  System.gc();
+        //  System.gc();
     }//GEN-LAST:event_txtQuantityFocusGained
 
     private void btnAddOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddOrderActionPerformed
@@ -1063,9 +1062,14 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
             }
             Date date = new Date(Calendar.getInstance().getTimeInMillis());
             Time time = new Time(Calendar.getInstance().getTimeInMillis());
+
+            com.zegates.sanctus.services.remote.Date dateJax = new com.zegates.sanctus.services.remote.Date();
+            com.zegates.sanctus.services.remote.Time timeJax = new com.zegates.sanctus.services.remote.Time();
+            dateJax.setDate(date);
+            timeJax.setTime(time);
             order.setOrderDetails(orderDetails);
-            order.setDateAdded(date);
-            order.setTimeAdded(time);
+            order.setDateAdded(dateJax);
+            order.setTimeAdded(timeJax);
             order.setOid(ojc.getLatesOrdersID() + 1L);
             order.setDiscount(discount);
             order.setTotal(total);
@@ -1074,7 +1078,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
             new CustomerDetails(mainFrame, true, order, this).setVisible(true);
 
             refreshOrderID();
-          //  System.gc();
+            //  System.gc();
         }
     }//GEN-LAST:event_btnAddOrderActionPerformed
 
@@ -1084,7 +1088,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
         reArrangeTotal();
         refreshFields();
         cmbManufacturer.requestFocus();
-     //   System.gc();
+        //   System.gc();
     }//GEN-LAST:event_btnClearOrderActionPerformed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
@@ -1094,7 +1098,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
         if (evt.getKeyCode() == KeyEvent.VK_F12) {
             btnAddOrder.doClick();
         }
-     //   System.gc();
+        //   System.gc();
     }//GEN-LAST:event_formKeyReleased
 
     private void tblOrdersKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblOrdersKeyReleased
@@ -1104,7 +1108,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
         if (evt.getKeyCode() == KeyEvent.VK_F12) {
             btnAddOrder.doClick();
         }
-       // System.gc();
+        // System.gc();
     }//GEN-LAST:event_tblOrdersKeyReleased
 
     private void cmbManufacturerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbManufacturerActionPerformed
@@ -1114,14 +1118,14 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             cmbItemName.requestFocus();
         }
-    //    System.gc();
+        //    System.gc();
     }//GEN-LAST:event_cmbManufacturerKeyReleased
 
     private void jPanel1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel1KeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_F12) {
             btnAddOrder.doClick();
         }
-      //  System.gc();
+        //  System.gc();
     }//GEN-LAST:event_jPanel1KeyReleased
 
     private void cmbBatchIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbBatchIDKeyReleased
@@ -1130,7 +1134,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
         } else if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtQuantity.requestFocus();
         }
-     //   System.gc();
+        //   System.gc();
     }//GEN-LAST:event_cmbBatchIDKeyReleased
 
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
@@ -1223,7 +1227,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
         search.setSearchableCombo(cmbManufacturer, true, "No Such Manufacture");
 
         search1.setSearchableCombo(cmbItemName, cmbItemCode, false, "No Such Item");
-      //  System.gc();
+        //  System.gc();
 
     }
 
@@ -1239,8 +1243,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
         cmbBatchID.removeAllItems();
         String itemCode = (String) cmbItemCode.getSelectedItem();
         if (itemCode != null) {
-            Item item = ijc.findItem(
-                    stripOutItemCode(itemCode));
+            Item item = ijc.findItem(stripOutItemCode(itemCode));
             if (item != null) {
                 List<SupplyOrderDetail> supplyOrderDetails = item.getSupplyOrderDetails();
                 cmbBatchID.removeAllItems();
@@ -1261,7 +1264,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
         lblRemainder.setText("");
         txtSubTotal.setText("");
         txtQuantity.setText("0");
-     //   System.gc();
+        //   System.gc();
     }
 
     private void calculateSubTotal() {
@@ -1303,7 +1306,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
     public void clearOrder() {
         dtmOrder.setRowCount(0);
         txtTotal.setText("");
-      //  System.gc();
+        //  System.gc();
     }
 
     public void refreshOrderID() {
@@ -1320,6 +1323,6 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
     @Override
     public void update(Observable o, Object arg) {
         mainFrame.update(o, arg);
-     //   System.gc();
+        //   System.gc();
     }
 }

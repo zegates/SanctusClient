@@ -10,6 +10,8 @@ import com.zegates.sanctus.services.remote.Orders;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
@@ -37,5 +39,6 @@ public interface OrdersController extends Serializable {
 
     void setChanged();
     void notifyObservers(String s);
+    void addObserver(Observer o);
     
 }

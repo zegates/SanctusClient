@@ -8,14 +8,14 @@ import java.util.Collections;
 import java.util.List;
 import javax.swing.JOptionPane;
 import agency.other.OtherController;
-import agency.persistance.controller.ConstructionJpaController;
-import agency.persistance.controller.ItemJpaController;
-import agency.persistance.controller.ManufacturerJpaController;
-import agency.persistance.entity.Category;
-import agency.persistance.entity.Metric;
-import agency.persistance.entity.Item;
-import agency.persistance.entity.Manufacturer;
+import agency.persistance.controller.remote.ItemController;
+import agency.persistance.controller.remote.ManufacturerController;
+
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.Category;
+import com.zegates.sanctus.services.remote.Item;
+import com.zegates.sanctus.services.remote.Manufacturer;
+import com.zegates.sanctus.services.remote.Metric;
 
 /**
  *
@@ -26,9 +26,8 @@ public class UpdateItemFrame extends javax.swing.JDialog {
     /**
      * Creates new form UpdateItemFrame
      */
-    private ManufacturerJpaController mjc;
-    private ConstructionJpaController cjc;
-    private ItemJpaController ijc;
+    private ManufacturerController mjc;
+    private ItemController ijc;
     private String itemCode;
 
     public UpdateItemFrame(java.awt.Frame parent, boolean modal) {
@@ -40,9 +39,8 @@ public class UpdateItemFrame extends javax.swing.JDialog {
         this(parent, b);
         this.itemCode = valueAt;
 
-        mjc = ControllerFactory.getManufacturerJpaController();
-        cjc = ControllerFactory.getConstructionJpaController();
-        ijc = ControllerFactory.getItemJpaController();
+        mjc = ControllerFactory.getManufacturerController();
+        ijc = ControllerFactory.getItemController();
         /**
          * Refresh values of combo boxes
          */
@@ -250,7 +248,7 @@ public class UpdateItemFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAddManufacturerActionPerformed
 
     private void btnAddConstructionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddConstructionActionPerformed
-        new AddConstructionFrame(null, true).setVisible(true);
+        new AddMetricFrame(null, true).setVisible(true);
         refreshConstructions();
 //        System.gc();
     }//GEN-LAST:event_btnAddConstructionActionPerformed

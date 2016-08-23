@@ -6,9 +6,10 @@
 package agency.persistance.controller.remote;
 
 import agency.persistance.controller.exceptions.NonexistentEntityException;
+import com.zegates.sanctus.services.remote.Item;
 import java.io.Serializable;
 import java.util.List;
-import persistence.entity.Item;
+import java.util.Observer;
 
 /**
  *
@@ -33,5 +34,6 @@ public interface ItemController extends Serializable {
     int getItemCount();
 
     void setChanged();
-    
+    void notifyObservers(String s);
+    void addObserver(Observer o);
 }

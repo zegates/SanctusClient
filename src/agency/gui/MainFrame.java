@@ -35,27 +35,21 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import agency.other.OtherController;
-import agency.persistance.controller.ConstructionJpaController;
-import agency.persistance.controller.ItemJpaController;
-import agency.persistance.controller.LogSessionJpaController;
-import agency.persistance.controller.ManufacturerJpaController;
-import agency.persistance.controller.OrdersJpaController;
-import agency.persistance.controller.SupplierJpaController;
-import agency.persistance.controller.SupplyOrderDetailJpaController;
-import agency.persistance.controller.SupplyOrderJpaController;
-import agency.persistance.controller.exceptions.NonexistentEntityException;
-import agency.persistance.entity.Category;
-import agency.persistance.entity.Metric;
-import agency.persistance.entity.Item;
-import agency.persistance.entity.LogSession;
-import agency.persistance.entity.LogUser;
-import agency.persistance.entity.Manufacturer;
-import agency.persistance.entity.Orders;
-import agency.persistance.entity.Supplier;
-import agency.persistance.entity.SupplyOrder;
-import agency.persistance.entity.SupplyOrderDetail;
+import agency.persistance.controller.remote.ItemController;
+import agency.persistance.controller.remote.LogSessionController;
+import agency.persistance.controller.remote.ManufacturerController;
+import agency.persistance.controller.remote.OrdersController;
+import agency.persistance.controller.remote.SupplierController;
+import agency.persistance.controller.remote.SupplyOrderController;
+import agency.persistance.controller.remote.SupplyOrderDetailController;
 import agency.persistance.factory.ControllerFactory;
 import agency.remote.DBBackup;
+import com.zegates.sanctus.services.remote.Item;
+import com.zegates.sanctus.services.remote.LogSession;
+import com.zegates.sanctus.services.remote.LogUser;
+import com.zegates.sanctus.services.remote.Orders;
+import com.zegates.sanctus.services.remote.SupplyOrder;
+import com.zegates.sanctus.services.remote.SupplyOrderDetail;
 
 /**
  *
@@ -69,14 +63,14 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
     private ArrayList<JInternalFrame> frameList;
     private LogSession logSession;
     
-    private ItemJpaController ijc;
-    private ConstructionJpaController cjc;
-    private ManufacturerJpaController mjc;
-    private OrdersJpaController ojc;
-    private SupplyOrderJpaController sojc;
-    private SupplyOrderDetailJpaController sodjc;
-    private SupplierJpaController sjc;
-    private LogSessionJpaController lsjc;
+    private ItemController ijc;
+//    private ConstructionController cjc;
+    private ManufacturerController mjc;
+    private OrdersController ojc;
+    private SupplyOrderController sojc;
+    private SupplyOrderDetailController sodjc;
+    private SupplierController sjc;
+    private LogSessionController lsjc;
     
     private DefaultListModel dlmCritical;
     private TrayIcon ico;
@@ -90,14 +84,14 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         Toolkit.getDefaultToolkit().getImage("./src/agency/img/tire.ico");
         setLocation(0, 0);
         setExtendedState(MAXIMIZED_BOTH);
-        ijc = ControllerFactory.getItemJpaController();
-        ojc = ControllerFactory.getOrdersJpaController();
-        lsjc = ControllerFactory.getSessionJpaController();
-        mjc = ControllerFactory.getManufacturerJpaController();
-        cjc = ControllerFactory.getConstructionJpaController();
-        sojc = ControllerFactory.getSupplyOrderJpaController();
-        sodjc = ControllerFactory.getSupplyOrderDetailJpaController();
-        sjc = ControllerFactory.getSupplierJpaController();
+        ijc = ControllerFactory.getItemController();
+        ojc = ControllerFactory.getOrdersController();
+        lsjc = ControllerFactory.getSessionController();
+        mjc = ControllerFactory.getManufacturerController();
+//        cjc = ControllerFactory.getConstructionController();
+        sojc = ControllerFactory.getSupplyOrderController();
+        sodjc = ControllerFactory.getSupplyOrderDetailController();
+        sjc = ControllerFactory.getSupplierController();
         
         ico = new TrayIcon(new ImageIcon(getClass().getResource("/agency/img/warning.png")).getImage());
         ico.setToolTip("Tire System");
@@ -107,8 +101,13 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
                 try {
                     logSession = new LogSession();
                     
-                    Date date = new Date(Calendar.getInstance().getTimeInMillis());
-                    Time time = new Time(Calendar.getInstance().getTimeInMillis());
+                    Date dateSQL = new Date(Calendar.getInstance().getTimeInMillis());
+                    Time timeSQL = new Time(Calendar.getInstance().getTimeInMillis());
+                    com.zegates.sanctus.services.remote.Date date = new com.zegates.sanctus.services.remote.Date();
+                    date.setDate(dateSQL);
+                    com.zegates.sanctus.services.remote.Time time = new com.zegates.sanctus.services.remote.Time();
+                    time.setTime(timeSQL);
+                    
                     logSession.setSeid(lsjc.getLogSessionCount() + 1L);
                     logSession.setDateStarted(date);
                     logSession.setTimeStarted(time);
