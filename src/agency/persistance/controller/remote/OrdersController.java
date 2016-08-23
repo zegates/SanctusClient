@@ -6,7 +6,7 @@
 package agency.persistance.controller.remote;
 
 import agency.persistance.controller.exceptions.NonexistentEntityException;
-import agency.persistance.entity.Orders;
+import com.zegates.sanctus.services.remote.Orders;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
@@ -36,5 +36,6 @@ public interface OrdersController extends Serializable {
     int getOrdersCount();
 
     void setChanged();
+    void notifyObservers(String s);
     
 }

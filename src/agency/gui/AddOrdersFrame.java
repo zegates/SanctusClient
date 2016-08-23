@@ -26,17 +26,17 @@ import agency.other.ComboSearch;
 import agency.other.IntegerOnly;
 import agency.other.OtherController;
 import agency.other.SwitchComboSearch;
-import agency.persistance.controller.ItemJpaController;
-import agency.persistance.controller.ManufacturerJpaController;
-import agency.persistance.controller.OrdersJpaController;
-import agency.persistance.controller.SupplyOrderDetailJpaController;
-import agency.persistance.entity.Item;
-import agency.persistance.entity.LogSession;
-import agency.persistance.entity.Manufacturer;
-import agency.persistance.entity.OrderDetail;
-import agency.persistance.entity.Orders;
-import agency.persistance.entity.SupplyOrderDetail;
+import agency.persistance.controller.remote.ItemController;
+import agency.persistance.controller.remote.ManufacturerController;
+import agency.persistance.controller.remote.OrdersController;
+import agency.persistance.controller.remote.SupplyOrderDetailController;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.Item;
+import com.zegates.sanctus.services.remote.LogSession;
+import com.zegates.sanctus.services.remote.Manufacturer;
+import com.zegates.sanctus.services.remote.OrderDetail;
+import com.zegates.sanctus.services.remote.Orders;
+import com.zegates.sanctus.services.remote.SupplyOrderDetail;
 
 /**
  *
@@ -47,10 +47,10 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
     public DefaultTableModel getDtmOrder() {
         return dtmOrder;
     }
-    private ItemJpaController ijc;
-    private ManufacturerJpaController mjc;
-    private SupplyOrderDetailJpaController sodjc;
-    private OrdersJpaController ojc;
+    private ItemController ijc;
+    private ManufacturerController mjc;
+    private SupplyOrderDetailController sodjc;
+    private OrdersController ojc;
     private boolean comboSwitch = false;
     /**
      * False this to stop Console proof printing
@@ -78,10 +78,10 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
         search = new ComboSearch();
         imgRight = new ImageIcon(getClass().getResource("/tireshop/img/right.png"));
         imgWrong = new ImageIcon(getClass().getResource("/tireshop/img/wrong.png"));
-        ijc = ControllerFactory.getItemJpaController();
-        mjc = ControllerFactory.getManufacturerJpaController();
-        sodjc = ControllerFactory.getSupplyOrderDetailJpaController();
-        ojc = ControllerFactory.getOrdersJpaController();
+        ijc = ControllerFactory.getItemController();
+        mjc = ControllerFactory.getManufacturerController();
+        sodjc = ControllerFactory.getSupplyOrderDetailController();
+        ojc = ControllerFactory.getOrdersController();
         dtmOrder = (DefaultTableModel) tblOrders.getModel();
         dtmOrder.setRowCount(0);
         refreshFields();
@@ -405,20 +405,20 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
         setResizable(true);
         setTitle("Add Orders for Items ");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
             }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
             }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameActivated(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
             }
         });
         addFocusListener(new java.awt.event.FocusAdapter() {
@@ -701,7 +701,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
                                             .addComponent(cmbItemName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(txtQuantity))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(lblRemainder, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -760,7 +760,7 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
                     .addComponent(jLabel15)
                     .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)

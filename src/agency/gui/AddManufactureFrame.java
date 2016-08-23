@@ -4,13 +4,11 @@
  */
 package agency.gui;
 
+import agency.persistance.controller.remote.ManufacturerController;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import agency.persistance.controller.ManufacturerJpaController;
-import agency.persistance.entity.Manufacturer;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.Manufacturer;
 
 /**
  *
@@ -18,7 +16,7 @@ import agency.persistance.factory.ControllerFactory;
  */
 public class AddManufactureFrame extends javax.swing.JDialog {
 
-    private ManufacturerJpaController mjc;
+    private ManufacturerController mjc;
 
     /**
      * Creates new form AddManufactureFrame
@@ -27,7 +25,7 @@ public class AddManufactureFrame extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocation(300, 200);
-        mjc = ControllerFactory.getManufacturerJpaController();
+        mjc = ControllerFactory.getManufacturerController();
         refreshFields();
     }
 

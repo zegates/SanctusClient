@@ -25,14 +25,14 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 import agency.other.OtherController;
-import agency.persistance.controller.LogSessionJpaController;
-import agency.persistance.controller.OrdersJpaController;
 import agency.persistance.controller.exceptions.NonexistentEntityException;
-import agency.persistance.entity.LogSession;
-import agency.persistance.entity.OrderDetail;
-import agency.persistance.entity.Orders;
-import agency.persistance.entity.SupplyOrder;
+import agency.persistance.controller.remote.LogSessionController;
+import agency.persistance.controller.remote.OrdersController;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.LogSession;
+import com.zegates.sanctus.services.remote.OrderDetail;
+import com.zegates.sanctus.services.remote.Orders;
+import com.zegates.sanctus.services.remote.SupplyOrder;
 
 /**
  *
@@ -78,8 +78,8 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
 //            return hash;
 //        }
 //    }
-    LogSessionJpaController lsjc;
-    OrdersJpaController ojp;
+    LogSessionController lsjc;
+    OrdersController ojp;
     DefaultTableModel dtm;
     LogSession session = null;
     MainFrame mainFrame;
@@ -90,10 +90,10 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
     public FinalizeFrame(MainFrame mf) {
         initComponents();
         this.mainFrame = mf;
-        lsjc = ControllerFactory.getSessionJpaController();
+        lsjc = ControllerFactory.getSessionController();
         this.session = lsjc.findLogSession(mf.getLogSession().getSeid());//OtherController.getLogSession(mf.session);  
 
-        ojp = ControllerFactory.getOrdersJpaController();
+        ojp = ControllerFactory.getOrdersController();
         txtSeid.setText(OtherController.formatCode("SE", session.getSeid(), 8));
 
         dtm = (DefaultTableModel) tbl.getModel();

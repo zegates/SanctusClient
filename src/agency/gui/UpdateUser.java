@@ -10,11 +10,10 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import agency.persistance.controller.LogUserJpaController;
 import agency.persistance.controller.exceptions.NonexistentEntityException;
 import agency.persistance.controller.remote.LogUserController;
-import agency.persistance.entity.LogUser;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.LogUser;
 
 /**
  *

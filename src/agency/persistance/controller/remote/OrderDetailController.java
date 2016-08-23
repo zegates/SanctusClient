@@ -6,7 +6,7 @@
 package agency.persistance.controller.remote;
 
 import agency.persistance.controller.exceptions.NonexistentEntityException;
-import agency.persistance.entity.OrderDetail;
+import com.zegates.sanctus.services.remote.OrderDetail;
 import java.io.Serializable;
 import java.util.List;
 

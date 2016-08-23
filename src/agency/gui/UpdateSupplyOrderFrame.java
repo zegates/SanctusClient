@@ -1,21 +1,20 @@
 package agency.gui;
 
+import agency.persistance.controller.exceptions.NonexistentEntityException;
+import agency.persistance.controller.remote.SupplierController;
+import agency.persistance.controller.remote.SupplyOrderController;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import agency.persistance.controller.SupplierJpaController;
-import agency.persistance.controller.SupplyOrderJpaController;
-import agency.persistance.controller.exceptions.NonexistentEntityException;
-import agency.persistance.entity.Supplier;
-import agency.persistance.entity.SupplyOrder;
+
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.Supplier;
+import com.zegates.sanctus.services.remote.SupplyOrder;
 
 /**
  *
@@ -23,8 +22,8 @@ import agency.persistance.factory.ControllerFactory;
  */
 public class UpdateSupplyOrderFrame extends javax.swing.JDialog {
 
-    private final SupplyOrderJpaController sojc;
-    private final SupplierJpaController sjc;
+    private final SupplyOrderController sojc;
+    private final SupplierController sjc;
     private final double total;
     private final ImageIcon imgRight;
     private final ImageIcon imgWrong;
@@ -35,8 +34,8 @@ public class UpdateSupplyOrderFrame extends javax.swing.JDialog {
     UpdateSupplyOrderFrame(java.awt.Frame parent, boolean modal, Object[] objects) {
         super(parent, modal);
         initComponents();
-        sojc = ControllerFactory.getSupplyOrderJpaController();
-        sjc = ControllerFactory.getSupplierJpaController();
+        sojc = ControllerFactory.getSupplyOrderController();
+        sjc = ControllerFactory.getSupplierController();
         List<Supplier> suppliers = sjc.findSupplierEntities();
         cmbSupplierName.removeAllItems();
         for (Supplier supplier : suppliers) {

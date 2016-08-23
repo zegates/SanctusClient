@@ -9,13 +9,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.sql.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import agency.persistance.controller.SupplierJpaController;
 import agency.persistance.controller.exceptions.NonexistentEntityException;
-import agency.persistance.entity.Supplier;
+import agency.persistance.controller.remote.SupplierController;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.Supplier;
 
 /**
  *
@@ -23,7 +21,7 @@ import agency.persistance.factory.ControllerFactory;
  */
 public class UpdateSupplierFrame extends javax.swing.JDialog {
 
-    private final SupplierJpaController sjc;
+    private final SupplierController sjc;
 
     /**
      * Creates new form UpdateSupplierFrame
@@ -37,7 +35,7 @@ public class UpdateSupplierFrame extends javax.swing.JDialog {
         txtLocation.setText(objects[3] + "");
         txtCompTel.setText(objects[4] + "");
         txtCompEmail.setText(objects[5] + "");
-        sjc = ControllerFactory.getSupplierJpaController();
+        sjc = ControllerFactory.getSupplierController();
         validation();
         setId();
         setLocationRelativeTo(null);

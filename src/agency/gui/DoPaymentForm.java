@@ -4,16 +4,14 @@
  */
 package agency.gui;
 
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import agency.other.OtherController;
-import agency.persistance.controller.OrdersJpaController;
 import agency.persistance.controller.exceptions.NonexistentEntityException;
-import agency.persistance.entity.OrderDetail;
-import agency.persistance.entity.Orders;
+import agency.persistance.controller.remote.OrdersController;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.Orders;
 
 /**
  *
@@ -21,7 +19,7 @@ import agency.persistance.factory.ControllerFactory;
  */
 public class DoPaymentForm extends javax.swing.JDialog {
 
-    private OrdersJpaController ojc;
+    private OrdersController ojc;
     private Orders orders;
 
     /**
@@ -30,7 +28,7 @@ public class DoPaymentForm extends javax.swing.JDialog {
     public DoPaymentForm(java.awt.Frame parent, boolean modal, long id) {
         super(parent, modal);
         initComponents();
-        ojc = ControllerFactory.getOrdersJpaController();
+        ojc = ControllerFactory.getOrdersController();
         setDetails(id);
 //        System.gc();
     }

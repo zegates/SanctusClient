@@ -4,16 +4,14 @@
  */
 package agency.gui;
 
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import agency.persistance.controller.ItemJpaController;
-import agency.persistance.controller.SupplyOrderDetailJpaController;
 import agency.persistance.controller.exceptions.NonexistentEntityException;
-import agency.persistance.entity.Item;
-import agency.persistance.entity.SupplyOrderDetail;
+import agency.persistance.controller.remote.ItemController;
+import agency.persistance.controller.remote.SupplyOrderDetailController;
+import java.util.List;
+import javax.swing.JOptionPane;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.Item;
+import com.zegates.sanctus.services.remote.SupplyOrderDetail;
 
 /**
  *
@@ -21,8 +19,8 @@ import agency.persistance.factory.ControllerFactory;
  */
 public class UpdateSupplyOrderDetail extends javax.swing.JDialog {
 
-    private final SupplyOrderDetailJpaController sodjc;
-    private final ItemJpaController ijc;
+    private final SupplyOrderDetailController sodjc;
+    private final ItemController ijc;
     private final long iid;
     private final int qty;
     private final int rqty;
@@ -41,8 +39,8 @@ public class UpdateSupplyOrderDetail extends javax.swing.JDialog {
         rqty = (int) objects[3];
         txtBuyingprice.setText(objects[4] + "");
         txtSellingPrice.setText(objects[5] + "");
-        sodjc = ControllerFactory.getSupplyOrderDetailJpaController();
-        ijc = ControllerFactory.getItemJpaController();
+        sodjc = ControllerFactory.getSupplyOrderDetailController();
+        ijc = ControllerFactory.getItemController();
         validation();
         setId();
         setLocationRelativeTo(null);

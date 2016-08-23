@@ -13,8 +13,15 @@ import agency.persistance.controller.remote.OrdersController;
 import agency.persistance.controller.remote.SupplierController;
 import agency.persistance.controller.remote.SupplyOrderController;
 import agency.persistance.controller.remote.SupplyOrderDetailController;
+import agency.persistance.controller.service.ItemControllerService;
+import agency.persistance.controller.service.LogSessionControllerService;
 import agency.persistance.controller.service.LogUserControllerService;
+import agency.persistance.controller.service.ManufacturerControllerService;
 import agency.persistance.controller.service.OrdersControllerService;
+import agency.persistance.controller.service.SupplierControllerService;
+import agency.persistance.controller.service.SupplyOrderControllerService;
+import agency.persistance.controller.service.SupplyOrderDetailControllerService;
+import com.zegates.sanctus.services.remote.SupplyOrder;
 
 /**
  *
@@ -26,6 +33,8 @@ public class ControllerFactory {
     private static ItemController ijc;
     private static SupplierController sjc;
     private static LogUserController luc;
+    private static SupplyOrderController soc;
+    private static LogSessionController lsc;
 
     static {
 //        ojc = new OrdersController(EMFHandler.getEmf());
@@ -35,8 +44,11 @@ public class ControllerFactory {
         luc = new LogUserControllerService();
 
         ojc = new OrdersControllerService();
-        ijc = new ItemController(EMFHandler.getEmf());
-        sjc = new SupplierController(EMFHandler.getEmf());
+        ijc = new ItemControllerService();
+        sjc = new SupplierControllerService();
+        
+        soc = new SupplyOrderControllerService();
+        lsc = new LogSessionControllerService();
     }
 
     public static ItemController getItemController() {
@@ -44,15 +56,11 @@ public class ControllerFactory {
     }
 
     public static ManufacturerController getManufacturerController() {
-        return new ManufacturerController(EMFHandler.getEmf());
-    }
-
-    public static ConstructionController getConstructionController() {
-        return new ConstructionController(EMFHandler.getEmf());
+        return new ManufacturerControllerService();
     }
 
     public static SupplyOrderDetailController getSupplyOrderDetailController() {
-        return new SupplyOrderDetailController(EMFHandler.getEmf());
+        return new SupplyOrderDetailControllerService();
     }
 
     public static SupplierController getSupplierController() {
@@ -60,7 +68,7 @@ public class ControllerFactory {
     }
 
     public static SupplyOrderController getSupplyOrderController() {
-        return new SupplyOrderController(EMFHandler.getEmf());
+        return soc;
     }
 
     public static OrdersController getOrdersController() {
@@ -68,7 +76,7 @@ public class ControllerFactory {
     }
 
     public static LogSessionController getSessionController() {
-        return new LogSessionController(EMFHandler.getEmf());
+        return lsc;
     }
 
     public static LogUserController getLogUserController() {

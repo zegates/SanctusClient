@@ -5,11 +5,6 @@
  */
 package agency.gui;
 
-import agency.persistance.entity.SupplyOrderDetail;
-import agency.persistance.entity.Category;
-import agency.persistance.entity.Metric;
-import agency.persistance.entity.Item;
-import agency.persistance.entity.Manufacturer;
 import java.awt.ItemSelectable;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -32,13 +27,15 @@ import javax.swing.tree.TreePath;
 import agency.other.OtherController;
 import agency.other.SearchTblsupplier;
 import agency.other.ProgressRenderer;
-import agency.persistance.controller.ConstructionJpaController;
-import agency.persistance.controller.ItemJpaController;
-import agency.persistance.controller.ManufacturerJpaController;
-import agency.persistance.controller.SupplyOrderDetailJpaController;
+import agency.persistance.controller.remote.ItemController;
+import agency.persistance.controller.remote.ManufacturerController;
+import agency.persistance.controller.remote.SupplyOrderDetailController;
 import agency.persistance.factory.ControllerFactory;
-import persistence.entity.TubeType;
-import persistence.entity.VehicleType;
+import com.zegates.sanctus.services.remote.Category;
+import com.zegates.sanctus.services.remote.Item;
+import com.zegates.sanctus.services.remote.Manufacturer;
+import com.zegates.sanctus.services.remote.Metric;
+import com.zegates.sanctus.services.remote.SupplyOrderDetail;
 
 /**
  *
@@ -47,10 +44,9 @@ import persistence.entity.VehicleType;
 public class ItemsFrame extends javax.swing.JInternalFrame implements Observer {
 
     // Define Controllers
-    private ItemJpaController ijc;
-    private ManufacturerJpaController mjc;
-    private ConstructionJpaController cjc;
-    private SupplyOrderDetailJpaController stjc;
+    private ItemController ijc;
+    private ManufacturerController mjc;
+    private SupplyOrderDetailController stjc;
     // DTM of the Updation Table
     private DefaultTableModel dtmItemDetails;
     private DefaultTableModel dtmItemLegend;
@@ -75,10 +71,9 @@ public class ItemsFrame extends javax.swing.JInternalFrame implements Observer {
         initComponents();
         this.mainFrame = mainFrame;
         searchTblsupplier = new SearchTblsupplier();
-        ijc = ControllerFactory.getItemJpaController();
-        mjc = ControllerFactory.getManufacturerJpaController();
-        cjc = ControllerFactory.getConstructionJpaController();
-        stjc = ControllerFactory.getSupplyOrderDetailJpaController();
+        ijc = ControllerFactory.getItemController();
+        mjc = ControllerFactory.getManufacturerController();
+        stjc = ControllerFactory.getSupplyOrderDetailController();
 
         dtmItemDetails = (DefaultTableModel) tblItemDetails.getModel();
         dtmItemLegend = (DefaultTableModel) tblLegend.getModel();

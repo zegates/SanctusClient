@@ -21,13 +21,13 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 import agency.other.OtherController;
-import agency.persistance.controller.OrdersJpaController;
-import agency.persistance.controller.SupplyOrderDetailJpaController;
 import agency.persistance.controller.exceptions.NonexistentEntityException;
-import agency.persistance.entity.OrderDetail;
-import agency.persistance.entity.Orders;
-import agency.persistance.entity.SupplyOrderDetail;
+import agency.persistance.controller.remote.OrdersController;
+import agency.persistance.controller.remote.SupplyOrderDetailController;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.OrderDetail;
+import com.zegates.sanctus.services.remote.Orders;
+import com.zegates.sanctus.services.remote.SupplyOrderDetail;
 
 /**
  *
@@ -35,8 +35,8 @@ import agency.persistance.factory.ControllerFactory;
  */
 public class CustomerDetails extends javax.swing.JDialog {
 
-    private OrdersJpaController ojc;
-    private SupplyOrderDetailJpaController sodjc;
+    private OrdersController ojc;
+    private SupplyOrderDetailController sodjc;
     private Orders orders;
     private AddOrdersFrame addOrdersFrame;
 
@@ -45,8 +45,8 @@ public class CustomerDetails extends javax.swing.JDialog {
      */
     public CustomerDetails(java.awt.Frame parent, boolean modal, Orders orders, AddOrdersFrame addOrdersFrame) {
         super(parent, modal);
-        ojc = ControllerFactory.getOrdersJpaController();
-        sodjc = ControllerFactory.getSupplyOrderDetailJpaController();
+        ojc = ControllerFactory.getOrdersController();
+        sodjc = ControllerFactory.getSupplyOrderDetailController();
         setLocation(180, 150);
         this.orders = orders;
         this.addOrdersFrame = addOrdersFrame;

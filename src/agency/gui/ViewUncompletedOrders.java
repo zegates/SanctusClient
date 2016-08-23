@@ -4,11 +4,11 @@
  */
 package agency.gui;
 
+import agency.persistance.controller.remote.OrdersController;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import agency.persistance.controller.OrdersJpaController;
-import agency.persistance.entity.Orders;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.Orders;
 
 /**
  *
@@ -17,14 +17,14 @@ import agency.persistance.factory.ControllerFactory;
 public class ViewUncompletedOrders extends javax.swing.JInternalFrame {
 
     private DefaultTableModel dtm;
-    private OrdersJpaController ojc;
+    private OrdersController ojc;
 
     /**
      * Creates new form ViewUncompletedOrders
      */
     public ViewUncompletedOrders() {
         initComponents();
-        ojc = ControllerFactory.getOrdersJpaController();
+        ojc = ControllerFactory.getOrdersController();
         dtm = (DefaultTableModel) tblvieworder.getModel();
         setTable();
 //        System.gc();

@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import agency.persistance.controller.ConstructionJpaController;
-import agency.persistance.entity.Metric;
 import agency.persistance.factory.ControllerFactory;
 
 /**
@@ -18,7 +16,7 @@ import agency.persistance.factory.ControllerFactory;
  */
 public class AddConstructionFrame extends javax.swing.JDialog {
 
-    private ConstructionJpaController cjc;
+    private ConstructionController cjc;
 
     /**
      * Creates new form AddMetricFrame
@@ -27,7 +25,7 @@ public class AddConstructionFrame extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocation(300, 200);
-        cjc = ControllerFactory.getConstructionJpaController();
+        cjc = ControllerFactory.getConstructionController();
         refreshFields();
 
     }

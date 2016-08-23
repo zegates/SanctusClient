@@ -6,9 +6,9 @@
 package agency.persistance.controller.remote;
 
 import agency.persistance.controller.exceptions.NonexistentEntityException;
-import agency.persistance.entity.Item;
 import java.io.Serializable;
 import java.util.List;
+import persistence.entity.Item;
 
 /**
  *

@@ -6,7 +6,7 @@
 package agency.persistance.controller.remote;
 
 import agency.persistance.controller.exceptions.NonexistentEntityException;
-import agency.persistance.entity.LogUser;
+import com.zegates.sanctus.services.remote.LogUser;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
