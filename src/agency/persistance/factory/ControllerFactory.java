@@ -5,10 +5,16 @@
 package agency.persistance.factory;
 
 
+import agency.persistance.controller.remote.ItemController;
+import agency.persistance.controller.remote.LogSessionController;
 import agency.persistance.controller.remote.LogUserController;
+import agency.persistance.controller.remote.ManufacturerController;
+import agency.persistance.controller.remote.OrdersController;
 import agency.persistance.controller.remote.SupplierController;
+import agency.persistance.controller.remote.SupplyOrderController;
+import agency.persistance.controller.remote.SupplyOrderDetailController;
 import agency.persistance.controller.service.LogUserControllerService;
-import localhost.agency.loguser.LogUserService;
+import agency.persistance.controller.service.OrdersControllerService;
 
 /**
  *
@@ -22,51 +28,51 @@ public class ControllerFactory {
     private static LogUserController luc;
 
     static {
-//        ojc = new OrdersJpaController(EMFHandler.getEmf());
-//        ijc = new ItemJpaController(EMFHandler.getEmf());
-//        sjc=new SupplierJpaController(EMFHandler.getEmf());
+//        ojc = new OrdersController(EMFHandler.getEmf());
+//        ijc = new ItemController(EMFHandler.getEmf());
+//        sjc=new SupplierController(EMFHandler.getEmf());
 
         luc = new LogUserControllerService();
 
-        ojc = new OrdersJpaController(EMFHandler.getEmf());
-        ijc = new ItemJpaController(EMFHandler.getEmf());
-        sjc = new SupplierJpaController(EMFHandler.getEmf());
+        ojc = new OrdersControllerService();
+        ijc = new ItemController(EMFHandler.getEmf());
+        sjc = new SupplierController(EMFHandler.getEmf());
     }
 
-    public static ItemJpaController getItemJpaController() {
+    public static ItemController getItemController() {
         return ijc;
     }
 
-    public static ManufacturerJpaController getManufacturerJpaController() {
-        return new ManufacturerJpaController(EMFHandler.getEmf());
+    public static ManufacturerController getManufacturerController() {
+        return new ManufacturerController(EMFHandler.getEmf());
     }
 
-    public static ConstructionJpaController getConstructionJpaController() {
-        return new ConstructionJpaController(EMFHandler.getEmf());
+    public static ConstructionController getConstructionController() {
+        return new ConstructionController(EMFHandler.getEmf());
     }
 
-    public static SupplyOrderDetailJpaController getSupplyOrderDetailJpaController() {
-        return new SupplyOrderDetailJpaController(EMFHandler.getEmf());
+    public static SupplyOrderDetailController getSupplyOrderDetailController() {
+        return new SupplyOrderDetailController(EMFHandler.getEmf());
     }
 
-    public static SupplierJpaController getSupplierJpaController() {
+    public static SupplierController getSupplierController() {
         return sjc;
     }
 
-    public static SupplyOrderJpaController getSupplyOrderJpaController() {
-        return new SupplyOrderJpaController(EMFHandler.getEmf());
+    public static SupplyOrderController getSupplyOrderController() {
+        return new SupplyOrderController(EMFHandler.getEmf());
     }
 
-    public static OrdersJpaController getOrdersJpaController() {
+    public static OrdersController getOrdersController() {
         return ojc;
     }
 
-    public static LogSessionJpaController getSessionJpaController() {
-        return new LogSessionJpaController(EMFHandler.getEmf());
+    public static LogSessionController getSessionController() {
+        return new LogSessionController(EMFHandler.getEmf());
     }
 
-    public static LogUserController getLogUserJpaController() {
-//        return new LogUserJpaController(EMFHandler.getEmf());
+    public static LogUserController getLogUserController() {
+//        return new LogUserController(EMFHandler.getEmf());
         return luc;
     }
 }
