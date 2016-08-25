@@ -11,6 +11,7 @@ import com.zegates.sanctus.services.remote.SupplyOrderDetail;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Observer;
 
 /**
  *
@@ -37,5 +38,12 @@ public interface SupplyOrderController extends Serializable {
     int getSupplyOrderCount();
 
     void setChanged();
+    void notifyObservers(Object s);
+    void addObserver(Observer o);
+    
+    
+    public static String LOCATION = "address";
+    public static String compNAME = "compName";
+    public static String NAME = "name";
     
 }

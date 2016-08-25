@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import agency.other.OtherController;
 import agency.persistance.controller.remote.ItemController;
 import agency.persistance.controller.remote.ManufacturerController;
+import agency.persistance.controller.remote.MetricController;
 
 import agency.persistance.factory.ControllerFactory;
 import com.zegates.sanctus.services.remote.Category;
@@ -28,7 +29,10 @@ public class UpdateItemFrame extends javax.swing.JDialog {
      */
     private ManufacturerController mjc;
     private ItemController ijc;
+    private MetricController mc;
+    
     private String itemCode;
+    
 
     public UpdateItemFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -41,6 +45,7 @@ public class UpdateItemFrame extends javax.swing.JDialog {
 
         mjc = ControllerFactory.getManufacturerController();
         ijc = ControllerFactory.getItemController();
+        mc = ControllerFactory.getMetricController();
         /**
          * Refresh values of combo boxes
          */
@@ -261,7 +266,7 @@ public class UpdateItemFrame extends javax.swing.JDialog {
                 Long itemID = OtherController.stripOutItemCode(itemCode);
                 Item item = ijc.findItem(itemID);
 
-                Metric metric = cjc.getConstructionForName((String) cmbMetric.getSelectedItem());
+                Metric metric = mc.findMetricForName((String) cmbMetric.getSelectedItem());
                 Manufacturer manufacturer = mjc.findManufacturerForName((String) cmbManufacturer.getSelectedItem());
                 Category category = (Category) cmbCategory.getSelectedItem();
 
@@ -359,7 +364,7 @@ public class UpdateItemFrame extends javax.swing.JDialog {
 
     private void refreshConstructions() {
         cmbMetric.removeAllItems();
-        List<Metric> constructions = cjc.findConstructionEntities();
+        List<Metric> constructions = mc.findMetricEntities();
         for (Metric construction : constructions) {
             cmbMetric.addItem(construction.getName());
         }

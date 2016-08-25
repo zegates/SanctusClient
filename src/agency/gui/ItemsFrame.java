@@ -126,6 +126,7 @@ public class ItemsFrame extends javax.swing.JInternalFrame implements Observer {
         cmbManufacturer = new javax.swing.JComboBox();
         btnAddManufacturer = new javax.swing.JButton();
         cmbCategory = new javax.swing.JComboBox();
+        btnAddCategory = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jrbManufacture = new javax.swing.JRadioButton();
@@ -272,6 +273,13 @@ public class ItemsFrame extends javax.swing.JInternalFrame implements Observer {
             }
         });
 
+        btnAddCategory.setText("Add Category");
+        btnAddCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCategoryActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -298,7 +306,8 @@ public class ItemsFrame extends javax.swing.JInternalFrame implements Observer {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnAddConstruction, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnAddManufacturer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(btnAddManufacturer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnAddCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(17, 17, 17))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,10 +339,11 @@ public class ItemsFrame extends javax.swing.JInternalFrame implements Observer {
                             .addComponent(jLabel11)
                             .addComponent(cmbManufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAddManufacturer))
-                        .addGap(18, 18, 18)
+                        .addGap(19, 19, 19)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAddCategory))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(20, 20, 20)
@@ -349,7 +359,7 @@ public class ItemsFrame extends javax.swing.JInternalFrame implements Observer {
                             .addComponent(btnCancel)
                             .addComponent(jButton8)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         tbpMain.addTab("Add Items", jPanel1);
@@ -857,9 +867,14 @@ public class ItemsFrame extends javax.swing.JInternalFrame implements Observer {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbCategoryKeyReleased
 
+    private void btnAddCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCategoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddCategoryActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgSearch;
     private javax.swing.ButtonGroup btgSort;
+    private javax.swing.JButton btnAddCategory;
     private javax.swing.JButton btnAddConstruction;
     private javax.swing.JButton btnAddItem;
     private javax.swing.JButton btnAddManufacturer;
@@ -957,6 +972,7 @@ public class ItemsFrame extends javax.swing.JInternalFrame implements Observer {
         cmbManufacturer.removeAllItems();
         List<Manufacturer> manufacturers = mjc.findManufacturerEntities();
         Collections.sort(manufacturers);
+       
         for (Manufacturer manufacturer : manufacturers) {
             cmbManufacturer.addItem(manufacturer.getName());
         }

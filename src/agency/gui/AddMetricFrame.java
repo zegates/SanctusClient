@@ -4,9 +4,13 @@
  */
 package agency.gui;
 
-import java.sql.SQLException;
+import agency.persistance.controller.remote.MetricController;
+import agency.persistance.factory.ControllerFactory;
 import javax.swing.JOptionPane;
 import com.zegates.sanctus.services.remote.Metric;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,7 +18,7 @@ import com.zegates.sanctus.services.remote.Metric;
  */
 public class AddMetricFrame extends javax.swing.JDialog {
 
-//    private ConstructionController cjc;
+    private MetricController cjc;
 
     /**
      * Creates new form AddMetricFrame
@@ -23,7 +27,7 @@ public class AddMetricFrame extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocation(300, 200);
-//        cjc = ControllerFactory.getConstructionController();
+        cjc = ControllerFactory.getMetricController();
         refreshFields();
 
     }
@@ -134,11 +138,11 @@ public class AddMetricFrame extends javax.swing.JDialog {
                 + "add Construction " + txtCatName.getText() + "?", "Confirm",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (conf == 0) {
-//            try {
+            try {
                 Metric construction = new Metric();
                 construction.setName(txtCatName.getText());
                 construction.setMid(stripOutID(txtCatID.getText()));
-//                cjc.create(construction);
+                cjc.create(construction);
 
                 conf = JOptionPane.showConfirmDialog(null, "Construction was added "
                         + "successfully\n Continue further adding ?", "Successful",
@@ -149,13 +153,13 @@ public class AddMetricFrame extends javax.swing.JDialog {
                 } else {
                     this.dispose();
                 }
-//            } catch (ClassNotFoundException ex) {
-//                JOptionPane.showMessageDialog(null, "Error occured in adding .\n"
-//                                    + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-//            } catch (SQLException ex) {
-//                JOptionPane.showMessageDialog(null, "Error occured in adding .\n"
-//                                    + ex.getMessage(), "Remote SQL Error", JOptionPane.ERROR_MESSAGE);
-//            }
+            } catch (ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Error occured in adding .\n"
+                                    + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error occured in adding .\n"
+                                    + ex.getMessage(), "Remote SQL Error", JOptionPane.ERROR_MESSAGE);
+            } 
         }
 ////        System.gc();
     }//GEN-LAST:event_btnAddCategoryActionPerformed
@@ -218,7 +222,7 @@ public class AddMetricFrame extends javax.swing.JDialog {
 
     public void refreshFields() {
         // Set Metric ID
-//        txtCatID.setText(getCatID(cjc.getConstructionCount(), 8));
+        txtCatID.setText(getCatID(cjc.getMetricCount(), 8));
 ////        System.gc();
 
     }

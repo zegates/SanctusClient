@@ -10,6 +10,7 @@ import com.zegates.sanctus.services.remote.Supplier;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Observer;
 
 /**
  *
@@ -62,5 +63,9 @@ public interface SupplierController extends Serializable {
     int getSupplierCount();
 
     void setChanged();
-    
+
+    void notifyObservers(Object s);
+
+    void addObserver(Observer o);
+
 }

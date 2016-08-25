@@ -50,19 +50,23 @@ import com.zegates.sanctus.services.remote.LogUser;
 import com.zegates.sanctus.services.remote.Orders;
 import com.zegates.sanctus.services.remote.SupplyOrder;
 import com.zegates.sanctus.services.remote.SupplyOrderDetail;
+import java.util.GregorianCalendar;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  *
  * @author Sandaruwan
  */
 public class MainFrame extends javax.swing.JFrame implements Observer {
-    
+
     private int openFrameCount = 0;
     private int xOffset = 20;
     private int yOffset = 20;
     private ArrayList<JInternalFrame> frameList;
     private LogSession logSession;
-    
+
     private ItemController ijc;
 //    private ConstructionController cjc;
     private ManufacturerController mjc;
@@ -71,14 +75,14 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
     private SupplyOrderDetailController sodjc;
     private SupplierController sjc;
     private LogSessionController lsjc;
-    
+
     private DefaultListModel dlmCritical;
     private TrayIcon ico;
 
     /**
      * Creates new form MainFrame
      */
-    public MainFrame(LogUser logUser, LogSession logSession) {
+    public MainFrame(LogUser logUser, LogSession logSession) throws DatatypeConfigurationException {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage("./src/agency/img/tire.ico"));
         Toolkit.getDefaultToolkit().getImage("./src/agency/img/tire.ico");
@@ -92,25 +96,32 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         sojc = ControllerFactory.getSupplyOrderController();
         sodjc = ControllerFactory.getSupplyOrderDetailController();
         sjc = ControllerFactory.getSupplierController();
-        
+
         ico = new TrayIcon(new ImageIcon(getClass().getResource("/agency/img/warning.png")).getImage());
-        ico.setToolTip("Tire System");
-        
+        ico.setToolTip("Agency System");
+
         if (logUser != null) {
             if (logSession == null) {
                 try {
                     logSession = new LogSession();
-                    
-                    Date dateSQL = new Date(Calendar.getInstance().getTimeInMillis());
-                    Time timeSQL = new Time(Calendar.getInstance().getTimeInMillis());
-                    com.zegates.sanctus.services.remote.Date date = new com.zegates.sanctus.services.remote.Date();
-                    date.setDate(dateSQL);
-                    com.zegates.sanctus.services.remote.Time time = new com.zegates.sanctus.services.remote.Time();
-                    time.setTime(timeSQL);
-                    
+
+//                    Date dateSQL = new Date(Calendar.getInstance().getTimeInMillis());
+//                    Time timeSQL = new Time(Calendar.getInstance().getTimeInMillis());
+//                    com.zegates.sanctus.services.remote.Date date = new com.zegates.sanctus.services.remote.Date();
+//                    date.setDateA(dateSQL);
+//                    com.zegates.sanctus.services.remote.Time time = new com.zegates.sanctus.services.remote.Time();
+//                    time.setTimeA(timeSQL);
+                    java.util.Date date = new java.util.Date(System.currentTimeMillis());
+
+                    GregorianCalendar c = new GregorianCalendar();
+                    c.setTime(date);
+                    XMLGregorianCalendar date2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+
                     logSession.setSeid(lsjc.getLogSessionCount() + 1L);
-                    logSession.setDateStarted(date);
-                    logSession.setTimeStarted(time);
+
+
+                    logSession.setDateStarted(date2);
+                    logSession.setTimeStarted(date2);
                     logSession.setLogUser(logUser);
                     lsjc.create(logSession);
                     this.logSession = logSession;
@@ -126,24 +137,24 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
         lblRState.setVerticalTextPosition(JLabel.BOTTOM);
         lblRState.setHorizontalTextPosition(JLabel.CENTER);
-        
+
         dlmCritical = new DefaultListModel();
         lstCritical.setModel(dlmCritical);
         setStat();
         ijc.addObserver(this);
-        
+
         frameList = new ArrayList<>();
         frameList.add(new ItemsFrame(this));
         frameList.add(new SuppliersFrame(this));
         frameList.add(new StockFrame(this));
-        
+
 ////        System.gc();
     }
-    
+
     public LogSession getLogSession() {
         return logSession;
     }
-    
+
     public void setLogSession(LogSession logSession) {
         this.logSession = logSession;
     }
@@ -654,8 +665,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdersActionPerformed
-        
-        
+
         JInternalFrame[] allFrames = dskMain.getAllFrames();
         boolean b = false;
         int frmid = 0;
@@ -673,9 +683,9 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
 ////        System.gc();
     }//GEN-LAST:event_btnOrdersActionPerformed
-    
+
     private void btnItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnItemsActionPerformed
-        
+
         JInternalFrame[] allFrames = dskMain.getAllFrames();
         boolean b = false;
         int frmid = 0;
@@ -693,7 +703,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
 ////        System.gc();
     }//GEN-LAST:event_btnItemsActionPerformed
-    
+
     private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
         JInternalFrame[] allFrames = dskMain.getAllFrames();
         boolean b = false;
@@ -712,7 +722,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
 ////        System.gc();
     }//GEN-LAST:event_btnStockActionPerformed
-    
+
     private void btnFinalizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizeActionPerformed
         JInternalFrame[] allFrames = dskMain.getAllFrames();
         boolean b = false;
@@ -731,7 +741,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
 ////        System.gc();
     }//GEN-LAST:event_btnFinalizeActionPerformed
-    
+
     private void btnSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSessionActionPerformed
         JInternalFrame[] allFrames = dskMain.getAllFrames();
         boolean b = false;
@@ -750,7 +760,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
 ////        System.gc();
     }//GEN-LAST:event_btnSessionActionPerformed
-    
+
     private void btnSuppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuppliersActionPerformed
         JInternalFrame[] allFrames = dskMain.getAllFrames();
         boolean b = false;
@@ -769,7 +779,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
 ////        System.gc();
     }//GEN-LAST:event_btnSuppliersActionPerformed
-    
+
     private void lstCriticalValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstCriticalValueChanged
         String itemCode = (String) lstCritical.getSelectedValue();
         if (itemCode != null) {
@@ -779,7 +789,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
 ////        System.gc();
     }//GEN-LAST:event_lstCriticalValueChanged
-    
+
     private void lstCriticalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstCriticalMouseClicked
         String itemCode = (String) lstCritical.getSelectedValue();
         if (itemCode != null) {
@@ -790,7 +800,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
 ////        System.gc();
     }//GEN-LAST:event_lstCriticalMouseClicked
-    
+
     private void btnPeepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeepActionPerformed
         Long[] ids = new Long[dlmCritical.size()];
         for (int i = 0; i < dlmCritical.size(); i++) {
@@ -806,7 +816,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
 ////        System.gc();
     }//GEN-LAST:event_btnPeepActionPerformed
-    
+
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         int conf = JOptionPane.showConfirmDialog(null, "Do you want to exit?", "Confirm",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -815,69 +825,69 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
 ////        System.gc();
     }//GEN-LAST:event_formWindowClosing
-    
+
     private void mniAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAboutActionPerformed
         new AboutUs(this, true).setVisible(true);
 ////        System.gc();
     }//GEN-LAST:event_mniAboutActionPerformed
-    
+
     private void btnAddCutOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCutOrdersActionPerformed
         btnOrders.doClick();
     }//GEN-LAST:event_btnAddCutOrdersActionPerformed
-    
+
     private void mniAddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddItemActionPerformed
         btnItems.doClick();
         ItemsFrame itemsFrame = (ItemsFrame) frameList.get(0);
         itemsFrame.getTbpMain().setSelectedIndex(0);
 ////        System.gc();
     }//GEN-LAST:event_mniAddItemActionPerformed
-    
+
     private void mniListItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListItemsActionPerformed
         btnItems.doClick();
         ItemsFrame itemsFrame = (ItemsFrame) frameList.get(0);
         itemsFrame.getTbpMain().setSelectedIndex(1);
 ////        System.gc();
     }//GEN-LAST:event_mniListItemsActionPerformed
-    
+
     private void mniUpdateSuppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniUpdateSuppliersActionPerformed
         btnSuppliers.doClick();
         SuppliersFrame suppliersFrame = (SuppliersFrame) frameList.get(1);
         suppliersFrame.getTbpMain().setSelectedIndex(1);
 ////        System.gc();
     }//GEN-LAST:event_mniUpdateSuppliersActionPerformed
-    
+
     private void mniAddSuppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddSuppliersActionPerformed
         btnSuppliers.doClick();
         SuppliersFrame suppliersFrame = (SuppliersFrame) frameList.get(1);
         suppliersFrame.getTbpMain().setSelectedIndex(0);
 ////        System.gc();
     }//GEN-LAST:event_mniAddSuppliersActionPerformed
-    
+
     private void mniViewStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniViewStockActionPerformed
         btnStock.doClick();
     }//GEN-LAST:event_mniViewStockActionPerformed
-    
+
     private void mniCriticalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniCriticalActionPerformed
         btnPeep.doClick();
     }//GEN-LAST:event_mniCriticalActionPerformed
-    
+
     private void mniSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSessionActionPerformed
         btnSession.doClick();
     }//GEN-LAST:event_mniSessionActionPerformed
-    
+
     private void mniFinalizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniFinalizeActionPerformed
         btnFinalize.doClick();
     }//GEN-LAST:event_mniFinalizeActionPerformed
-    
+
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         new ViewOrder(null, true).setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
-    
+
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         new ViewSupplyOrder(this, true).setVisible(true);
 ////        System.gc();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-    
+
     private void mniUpdateRemoteDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniUpdateRemoteDBActionPerformed
         new Thread(new Runnable() {
             @Override
@@ -895,7 +905,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
                             JOptionPane.showMessageDialog(null, "Remote Server"
                                     + " Was Successfully Restored", "Successful", JOptionPane.INFORMATION_MESSAGE);
                             lblRState.setText(OtherController.getDate() + " " + OtherController.getCurretTime());
-                            
+
                         } else {
                             lblRState.setIcon(imgTcpW);
                             lblRState.setText(OtherController.getDate() + " " + OtherController.getCurretTime());
@@ -907,7 +917,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
                         JOptionPane.showMessageDialog(null, "Error in Connection with remote Server",
                                 "Error Occured", JOptionPane.ERROR_MESSAGE);
                     }
-                    
+
                 } catch (ClassNotFoundException ex) {
                     JOptionPane.showMessageDialog(null, "Error Attempt \n" + ex.getMessage(),
                             "ClassNotFound ", JOptionPane.ERROR_MESSAGE);
@@ -921,15 +931,15 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
 //        //        System.gc();
             }
         }).start();
-        
+
 ////        System.gc();
-        
+
     }//GEN-LAST:event_mniUpdateRemoteDBActionPerformed
-    
+
     private void mniPayedOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniPayedOrdersActionPerformed
         btnDueActionPerformed(null);
     }//GEN-LAST:event_mniPayedOrdersActionPerformed
-    
+
     private void btnDueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDueActionPerformed
         JInternalFrame[] allFrames = dskMain.getAllFrames();
         boolean b = false;
@@ -948,7 +958,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
 ////        System.gc();
     }//GEN-LAST:event_btnDueActionPerformed
-    
+
     private void backupDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupDBActionPerformed
         JFileChooser browser = new JFileChooser();
         browser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -992,7 +1002,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
             }
         }
     }//GEN-LAST:event_backupDBActionPerformed
-    
+
     private void restoreDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restoreDBActionPerformed
         JFileChooser browser = new JFileChooser();
         browser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -1041,9 +1051,9 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
         browser.removeChoosableFileFilter(backupfileFilter);
     }//GEN-LAST:event_restoreDBActionPerformed
-    
+
     private void itemupuserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemupuserActionPerformed
-        new UpdateUser(this, true, logSession.getLogUser()).setVisible(true);
+        new UpdateUser(this, true, (LogUser)logSession.getLogUser()).setVisible(true);
     }//GEN-LAST:event_itemupuserActionPerformed
 
     /**
@@ -1161,7 +1171,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
 ////        System.gc();
     }
-    
+
     private int getOpenedFrameCount() {
         openFrameCount = 0;
         JInternalFrame[] frames = dskMain.getAllFrames();
@@ -1170,16 +1180,16 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
         return openFrameCount;
     }
-    
+
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof String) {
             String argExp = (String) arg;
             if (argExp.equals("addOrder")) {
-              //  setStat();
+                //  setStat();
                 calculateSessionSale();
             } else if (argExp.equals("addSupply")) {
-             //   setStat();
+                //   setStat();
                 calculateSessionSale();
                 ((ItemsFrame) frameList.get(0)).setTree();
             } else if (argExp.equals("addItem")) {
@@ -1195,7 +1205,7 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
 ////        System.gc();
     }
-    
+
     private void setStat() {
         List<Item> items = ijc.findItemEntities();
         dlmCritical.removeAllElements();
@@ -1237,18 +1247,18 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
         if (ojc.getOrdersCount() > 0) {
             List<Orders> orderses = ojc.findOrdersEntities(1, ojc.getOrdersCount() - 1);
-            
+
             lblLastOrder.setText(OtherController.formatCode(
                     "OD", orderses.get(orderses.size() - 1).getOid(), 8));
             calculateSessionSale();
         }
 ////        System.gc();
     }
-    
+
     private void calculateSessionSale() {
         if (logSession != null) {
             LogSession ls = lsjc.findLogSession(logSession.getSeid());
-            
+
             List<Orders> orderss = ls.getOrderss();
             double sessionTotal = 0;
             for (Orders orders : orderss) {
@@ -1264,11 +1274,11 @@ public class MainFrame extends javax.swing.JFrame implements Observer {
         }
 ////        System.gc();
     }
-    
+
     public JDesktopPane getDsk() {
         return dskMain;
     }
-    
+
 //    private void setItem() {
 //        
 //        Long loc = new Long("-1");

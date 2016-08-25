@@ -10,11 +10,11 @@ import java.util.Comparator;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import agency.other.OtherController;
-import agency.persistance.controller.LogSessionJpaController;
-import agency.persistance.entity.LogSession;
-import agency.persistance.entity.Orders;
-import agency.persistance.entity.SupplyOrder;
+import agency.persistance.controller.remote.LogSessionController;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.LogSession;
+import com.zegates.sanctus.services.remote.Orders;
+import com.zegates.sanctus.services.remote.SupplyOrder;
 
 /**
  *
@@ -23,7 +23,7 @@ import agency.persistance.factory.ControllerFactory;
 public class SessionFrame extends javax.swing.JInternalFrame {
 
     private MainFrame mainFrame;
-    private LogSessionJpaController lsjc;
+    private LogSessionController lsjc;
     DefaultTableModel dtmSession;
     DefaultTableModel dtmSessionDetails;
 
@@ -33,7 +33,7 @@ public class SessionFrame extends javax.swing.JInternalFrame {
     public SessionFrame(MainFrame mainFrame) {
         initComponents();
         this.mainFrame = mainFrame;
-        lsjc = ControllerFactory.getSessionJpaController();
+        lsjc = ControllerFactory.getSessionController();
 
         dtmSession = (DefaultTableModel) tblSessions.getModel();
         dtmSessionDetails = (DefaultTableModel) tblSessionDetails.getModel();
@@ -235,10 +235,11 @@ public class SessionFrame extends javax.swing.JInternalFrame {
                     if (o1 instanceof Orders && o2 instanceof Orders) {
                         Orders ob1 = (Orders) o1;
                         Orders ob2 = (Orders) o2;
+                        
 
-                        if (ob1.getDateAdded().after(ob2.getDateAdded())) {
+                        if (ob1.getDateAdded().toGregorianCalendar().getTime().after(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                             return 1;
-                        } else if (ob1.getDateAdded().before(ob2.getDateAdded())) {
+                        } else if (ob1.getDateAdded().toGregorianCalendar().getTime().before(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                             return -1;
                         } else {
                             return 0;
@@ -248,9 +249,9 @@ public class SessionFrame extends javax.swing.JInternalFrame {
                         Orders ob1 = (Orders) o1;
                         SupplyOrder ob2 = (SupplyOrder) o2;
 
-                        if (ob1.getDateAdded().after(ob2.getDateAdded())) {
+                        if (ob1.getDateAdded().toGregorianCalendar().getTime().after(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                             return 1;
-                        } else if (ob1.getDateAdded().before(ob2.getDateAdded())) {
+                        } else if (ob1.getDateAdded().toGregorianCalendar().getTime().before(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                             return -1;
                         } else {
                             return 0;
@@ -260,9 +261,9 @@ public class SessionFrame extends javax.swing.JInternalFrame {
                         SupplyOrder ob1 = (SupplyOrder) o1;
                         Orders ob2 = (Orders) o2;
 
-                        if (ob1.getDateAdded().after(ob2.getDateAdded())) {
+                        if (ob1.getDateAdded().toGregorianCalendar().getTime().after(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                             return 1;
-                        } else if (ob1.getDateAdded().before(ob2.getDateAdded())) {
+                        } else if (ob1.getDateAdded().toGregorianCalendar().getTime().before(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                             return -1;
                         } else {
                             return 0;
@@ -272,9 +273,9 @@ public class SessionFrame extends javax.swing.JInternalFrame {
                         SupplyOrder ob1 = (SupplyOrder) o1;
                         SupplyOrder ob2 = (SupplyOrder) o2;
 
-                        if (ob1.getDateAdded().after(ob2.getDateAdded())) {
+                        if (ob1.getDateAdded().toGregorianCalendar().getTime().after(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                             return 1;
-                        } else if (ob1.getDateAdded().before(ob2.getDateAdded())) {
+                        } else if (ob1.getDateAdded().toGregorianCalendar().getTime().before(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                             return -1;
                         } else {
                             return 0;

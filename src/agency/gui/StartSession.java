@@ -11,12 +11,16 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import agency.other.OtherController;
-import agency.persistance.controller.LogSessionJpaController;
-import agency.persistance.controller.LogUserJpaController;
+import agency.persistance.controller.remote.LogSessionController;
 import agency.persistance.controller.remote.LogUserController;
-import agency.persistance.entity.LogSession;
-import agency.persistance.entity.LogUser;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.LogSession;
+import com.zegates.sanctus.services.remote.LogUser;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.bind.JAXBElement;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  *
@@ -26,8 +30,8 @@ public class StartSession extends javax.swing.JFrame {
 
     private Long uid;
     private LogUser user = null;
-    private LogSessionJpaController logSessionJpaController;
-    private LogUserController logUserJpaController;
+    private LogSessionController logSessionController;
+    private LogUserController logUserController;
     private LogSession lgs = null;
 
     /**
@@ -37,8 +41,8 @@ public class StartSession extends javax.swing.JFrame {
         initComponents();
 
         setLocationRelativeTo(null);
-        logSessionJpaController = ControllerFactory.getSessionJpaController();
-        logUserJpaController = ControllerFactory.getLogUserJpaController();
+        logSessionController = ControllerFactory.getSessionController();
+        logUserController = ControllerFactory.getLogUserController();
 
         tblSessionDetails.requestFocus();
         tblSessionDetails.setRowSelectionAllowed(true);
@@ -47,31 +51,36 @@ public class StartSession extends javax.swing.JFrame {
     public StartSession(Long uid) {
         this();
         this.uid = uid;
-        user = logUserJpaController.findLogUser(uid);
+        user = logUserController.findLogUser(uid);
 
+//        List<LogSession> logSessions = user.getLogSessions();
         List<LogSession> logSessions = user.getLogSessions();
+        System.out.println("Log S"+logSessions.size());
         if (logSessions != null) {
             String[] colNames = {"Session ID", "Date From", "Time From", "Time Till"};
-            DefaultTableModel dtm = new DefaultTableModel(colNames, 0){
-            
-                boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
+            DefaultTableModel dtm = new DefaultTableModel(colNames, 0) {
+
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false
+                };
 
                 @Override
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        };
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            };
 
             for (int i = 0; i < logSessions.size(); i++) {
                 LogSession logSession = logSessions.get(i);
+                
                 if (!logSession.isFinalised()) {
                     Calendar c = new GregorianCalendar();
-                    c.setTime(logSession.getDateStarted());
+                    XMLGregorianCalendar xcal = logSession.getDateStarted();
+                    java.util.Date dt = xcal.toGregorianCalendar().getTime();
+                    c.setTime(dt);
                     dtm.addRow(new String[]{logSession.getSeid() + "",
-                                c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.MONTH) + "/"
-                                + c.get(Calendar.YEAR), logSession.getTimeStarted().toString(), null});
+                        c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.MONTH) + "/"
+                        + c.get(Calendar.YEAR), logSession.getTimeStarted().toString(), null});
                 }
             }
             txtName.setText(user.getName());
@@ -264,18 +273,22 @@ public class StartSession extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNewSessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSessActionPerformed
-        MainFrame mainFrame = new MainFrame(user, null);
-        mainFrame.setVisible(true);
+        try {
+            MainFrame mainFrame = new MainFrame(user, null);
+            mainFrame.setVisible(true);
 //        System.gc();
-        this.dispose();
+            this.dispose();
 //        System.gc();
+        } catch (DatatypeConfigurationException ex) {
+            Logger.getLogger(StartSession.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnNewSessActionPerformed
 
     private void tblSessionDetailsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSessionDetailsMouseClicked
         int row = tblSessionDetails.getSelectedRow();
         if (row != -1) {
             try {
-                lgs = logSessionJpaController.findLogSession(
+                lgs = logSessionController.findLogSession(
                         Long.parseLong((String) tblSessionDetails.getValueAt(row, 0)));
 
                 btnConSess.setEnabled(true);
@@ -287,10 +300,14 @@ public class StartSession extends javax.swing.JFrame {
 
     private void btnConSessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConSessActionPerformed
         if (lgs != null) {
-            MainFrame mainFrame = new MainFrame(user, lgs);
-            mainFrame.setVisible(true);
-    //        System.gc();
-            this.dispose();
+            try {
+                MainFrame mainFrame = new MainFrame(user, lgs);
+                mainFrame.setVisible(true);
+                //        System.gc();
+                this.dispose();
+            } catch (DatatypeConfigurationException ex) {
+                Logger.getLogger(StartSession.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnConSessActionPerformed
 

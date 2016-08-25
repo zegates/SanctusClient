@@ -8,6 +8,7 @@ package agency.persistance.controller.service;
 import agency.persistance.controller.exceptions.NonexistentEntityException;
 import agency.persistance.controller.remote.LogUserController;
 import com.zegates.sanctus.services.remote.LogUser;
+import com.zegates.sanctus.services.remote.LogUserContainer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +47,12 @@ public class LogUserControllerService implements LogUserController {
 
     @Override
     public LogUser findLogUser(Long id) {
-        com.zegates.sanctus.services.remote.LogUser findLogUser = logUserService.findLogUser(id);
-        return mapRemoteLogUser(findLogUser);
+        LogUserContainer findLogUser = logUserService.findLogUser(id);
+        LogUser lu = findLogUser.getLogUser();
+        System.out.println("    "+findLogUser.getLogSessions().toString());
+        lu.setLogSessions(findLogUser.getLogSessions());
+        
+        return lu;
     }
 
     @Override

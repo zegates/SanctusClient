@@ -6,15 +6,10 @@ package agency.gui;
 
 import java.awt.event.KeyEvent;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import agency.persistance.controller.LogUserJpaController;
 import agency.persistance.controller.remote.LogUserController;
-import agency.persistance.entity.LogUser;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.LogUser;
 
 /**
  *
@@ -30,7 +25,7 @@ public class LoginFrame extends javax.swing.JFrame {
     public LoginFrame() {
         initComponents();
         setLocationRelativeTo(null);
-        lujc = ControllerFactory.getLogUserJpaController();
+        lujc = ControllerFactory.getLogUserController();
         txtUname.requestFocus();
     }
 
@@ -179,6 +174,7 @@ public class LoginFrame extends javax.swing.JFrame {
             LogUser logUser = users.get(i);
             if (logUser.getUsername().equals(txtUname.getText())
                     && logUser.getPw().equals(pass)) {
+                System.out.println("LU"+ logUser.getLogSessions().toString());
                 new StartSession(logUser.getUid()).setVisible(true);
                 verif = true;
                 break;

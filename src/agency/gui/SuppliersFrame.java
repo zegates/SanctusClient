@@ -4,7 +4,7 @@
  */
 package agency.gui;
 
-import com.sun.java.swing.plaf.motif.MotifBorders;
+import agency.persistance.controller.remote.SupplierController;
 import java.awt.Font;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -15,23 +15,25 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
-import javax.swing.border.AbstractBorder;
 import javax.swing.table.DefaultTableModel;
-import agency.persistance.controller.SupplierJpaController;
-import agency.persistance.entity.Supplier;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.Supplier;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  *
  * @author Sandaruwan
  */
-public class SuppliersFrame extends javax.swing.JInternalFrame implements Observer{
+public class SuppliersFrame extends javax.swing.JInternalFrame implements Observer {
 
-    private final SupplierJpaController sjc;
+    private final SupplierController sjc;
     private final DefaultTableModel dtm;
     private MainFrame mainFrame;
 
@@ -40,8 +42,8 @@ public class SuppliersFrame extends javax.swing.JInternalFrame implements Observ
      */
     public SuppliersFrame(MainFrame mf) {
         initComponents();
-        this.mainFrame=mf;
-        sjc = ControllerFactory.getSupplierJpaController();
+        this.mainFrame = mf;
+        sjc = ControllerFactory.getSupplierController();
         setId();
         validation();
         dtm = (DefaultTableModel) tblfnd.getModel();
@@ -489,14 +491,25 @@ public class SuppliersFrame extends javax.swing.JInternalFrame implements Observ
      */
     private void btnAddSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSupplierActionPerformed
         try {
+//            Date dateSQL = new Date(Calendar.getInstance().getTimeInMillis());
+//            Time timeSQL = new Time(Calendar.getInstance().getTimeInMillis());
+//            com.zegates.sanctus.services.remote.Date date = new com.zegates.sanctus.services.remote.Date();
+//            date.setDateA(dateSQL);
+//            com.zegates.sanctus.services.remote.Time time = new com.zegates.sanctus.services.remote.Time();
+//            time.setTimeA(timeSQL);
+            java.util.Date date = new java.util.Date(System.currentTimeMillis());
+            GregorianCalendar c = new GregorianCalendar();
+            c.setTime(date);
+            XMLGregorianCalendar date2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+
             Supplier supplier = new Supplier();
             supplier.setAddress(txtLocation.getText());
             supplier.setCompName(txtCompTitle.getText());
             supplier.setEmail(txtCompEmail.getText());
-            supplier.setDateAdded(new Date(Calendar.getInstance().getTimeInMillis()));
+            supplier.setDateAdded(date2);
             supplier.setSuid(Long.parseLong(txtSupID.getText()));
             supplier.setName(txtCEO.getText());
-            supplier.setTimeAdded(new Time(Calendar.getInstance().getTimeInMillis()));
+            supplier.setTimeAdded(date2);
             supplier.setTpno(txtCompTel.getText());
             sjc.create(supplier);
             sjc.setChanged();
@@ -506,15 +519,17 @@ public class SuppliersFrame extends javax.swing.JInternalFrame implements Observ
             JOptionPane.showMessageDialog(this, "Supplier Inserted Successfully", "Insert Record", JOptionPane.INFORMATION_MESSAGE);
             setId();
             clear();
-    //        System.gc();
+            //        System.gc();
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Error occured in adding .\n"
-                                    + ex.getMessage(), "ClassNotFound Error", JOptionPane.ERROR_MESSAGE);
-    //        System.gc();
+                    + ex.getMessage(), "ClassNotFound Error", JOptionPane.ERROR_MESSAGE);
+            //        System.gc();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error occured in adding .\n"
-                                    + ex.getMessage(), "Remote SQL Error", JOptionPane.ERROR_MESSAGE);
-    //        System.gc();
+                    + ex.getMessage(), "Remote SQL Error", JOptionPane.ERROR_MESSAGE);
+            //        System.gc();
+        } catch (DatatypeConfigurationException ex) {
+            Logger.getLogger(SuppliersFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAddSupplierActionPerformed
 
@@ -566,7 +581,7 @@ public class SuppliersFrame extends javax.swing.JInternalFrame implements Observ
             dtm.setRowCount(0);
             for (Supplier supplier : suppliers) {
                 dtm.addRow(new Object[]{supplier.getSuid(), supplier.getCompName(),
-                            supplier.getName(), supplier.getAddress(), supplier.getTpno(), supplier.getEmail()});
+                    supplier.getName(), supplier.getAddress(), supplier.getTpno(), supplier.getEmail()});
             }
             if (suppliers.isEmpty()) {
                 labelerror.setText("No Such Supplier");
@@ -691,7 +706,7 @@ public class SuppliersFrame extends javax.swing.JInternalFrame implements Observ
         for (Supplier supplier : suppliers) {
             if (supplier.getSuid() != -1) {
                 dtm.addRow(new Object[]{supplier.getSuid(), supplier.getCompName(),
-                            supplier.getName(), supplier.getAddress(), supplier.getTpno(), supplier.getEmail()});
+                    supplier.getName(), supplier.getAddress(), supplier.getTpno(), supplier.getEmail()});
             }
         }
         txtSearch.setText("");

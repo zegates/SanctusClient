@@ -4,21 +4,9 @@
  */
 package agency.gui;
 
-import agency.persistance.entity.SupplyOrderDetail;
-import agency.persistance.entity.Supplier;
-import agency.persistance.entity.SupplyOrder;
-import agency.persistance.entity.Item;
-import agency.persistance.entity.Manufacturer;
-import agency.persistance.controller.ItemJpaController;
-import agency.persistance.controller.ManufacturerJpaController;
-import agency.persistance.controller.SupplyOrderJpaController;
-import agency.persistance.controller.SupplyOrderDetailJpaController;
-import agency.persistance.controller.SupplierJpaController;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.sql.Date;
-import java.sql.Time;
 import java.util.*;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -28,7 +16,19 @@ import javax.swing.table.DefaultTableModel;
 import agency.other.ComboSearch;
 import agency.other.OtherController;
 import agency.other.SwitchComboSearch;
+import agency.persistance.controller.remote.ItemController;
+import agency.persistance.controller.remote.ManufacturerController;
+import agency.persistance.controller.remote.SupplierController;
+import agency.persistance.controller.remote.SupplyOrderController;
+import agency.persistance.controller.remote.SupplyOrderDetailController;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.Item;
+import com.zegates.sanctus.services.remote.Manufacturer;
+import com.zegates.sanctus.services.remote.Supplier;
+import com.zegates.sanctus.services.remote.SupplyOrder;
+import com.zegates.sanctus.services.remote.SupplyOrderDetail;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  *
@@ -36,11 +36,11 @@ import agency.persistance.factory.ControllerFactory;
  */
 public class StockFrame extends javax.swing.JInternalFrame implements Observer {
 
-    private ManufacturerJpaController mjc;
-    private ItemJpaController ijc;
-    private SupplyOrderDetailJpaController sodjc;
-    private SupplierJpaController sjc;
-    private SupplyOrderJpaController sojc;
+    private ManufacturerController mjc;
+    private ItemController ijc;
+    private SupplyOrderDetailController sodjc;
+    private SupplierController sjc;
+    private SupplyOrderController sojc;
     /**
      * This does the switching in state change event in Item Name and Item Code
      * Combo Boxes
@@ -78,25 +78,22 @@ public class StockFrame extends javax.swing.JInternalFrame implements Observer {
         switchComboSearch = new SwitchComboSearch();
 
         // Define Controllers
-        mjc = ControllerFactory.getManufacturerJpaController();
-        ijc = ControllerFactory.getItemJpaController();
-        sodjc = ControllerFactory.getSupplyOrderDetailJpaController();
-        sjc = ControllerFactory.getSupplierJpaController();
-        sojc = ControllerFactory.getSupplyOrderJpaController();
-
-
+        mjc = ControllerFactory.getManufacturerController();
+        ijc = ControllerFactory.getItemController();
+        sodjc = ControllerFactory.getSupplyOrderDetailController();
+        sjc = ControllerFactory.getSupplierController();
+        sojc = ControllerFactory.getSupplyOrderController();
 
         OtherController.setIntegerOnly(txtQuantity);
         OtherController.setIntegerOnly(txtBuyingPrice);
         OtherController.setIntegerOnly(txtSellingPrice);
         // Images of Status
-        imgRight = new ImageIcon(getClass().getResource("/tireshop/img/right.png"));
-        imgWrong = new ImageIcon(getClass().getResource("/tireshop/img/wrong.png"));
+        imgRight = new ImageIcon(getClass().getResource("/agency/img/right.png"));
+        imgWrong = new ImageIcon(getClass().getResource("/agency/img/wrong.png"));
 
         dtmOrder = (DefaultTableModel) tblOrder.getModel();
         dtmSupply = (DefaultTableModel) tblSupply.getModel();
         dtmSupplyDetail = (DefaultTableModel) tblSupplyDetail.getModel();
-
 
         refreshFields();
         refreshFindListTable();
@@ -692,22 +689,24 @@ public class StockFrame extends javax.swing.JInternalFrame implements Observer {
 
     private void cmbManufacturerItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbManufacturerItemStateChanged
         String manuName = (String) cmbManufacturer.getSelectedItem();
-        Manufacturer manufacturer = mjc.findManufacturerForName(manuName);
-        cmbItemName.removeAllItems();
-        cmbItemCode.removeAllItems();
-        if (manufacturer != null) {
-            List<Item> items = manufacturer.getItems();
-            if (items != null && items.size() > 0) {
-                for (Item item : items) {
-                    cmbItemCode.addItem(OtherController.formatCode("I", item.getIid(), 8));
-                    cmbItemName.addItem(item.getName() + " - "
-                            + item.getMetric().getName());
+        if (manuName != null) {
+            Manufacturer manufacturer = mjc.findManufacturerForName(manuName);
+            cmbItemName.removeAllItems();
+            cmbItemCode.removeAllItems();
+            if (manufacturer != null) {
+                List<Item> items = manufacturer.getItems();
+                if (items != null && items.size() > 0) {
+                    for (Item item : items) {
+                        cmbItemCode.addItem(OtherController.formatCode("I", item.getIid(), 8));
+                        cmbItemName.addItem(item.getName() + " - "
+                                + item.getMetric().getName());
+                    }
+                    cmbItemName.setSelectedIndex(0);
                 }
-                cmbItemName.setSelectedIndex(0);
             }
+            switchComboSearch.refreshList(cmbItemName, cmbItemCode);
+            refreshBatchID();
         }
-        switchComboSearch.refreshList(cmbItemName, cmbItemCode);
-        refreshBatchID();
     }//GEN-LAST:event_cmbManufacturerItemStateChanged
 
     private void cmbItemNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbItemNameItemStateChanged
@@ -769,9 +768,9 @@ public class StockFrame extends javax.swing.JInternalFrame implements Observer {
     private void btnAddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddItemActionPerformed
         if (validateFields()) {
             dtmOrder.addRow(new Object[]{cmbItemCode.getSelectedItem(),
-                        cmbItemCode.getSelectedItem() + " " + cmbItemName.getSelectedItem(),
-                        txtBatchID.getText(), txtQuantity.getText(), txtBuyingPrice.getText(),
-                        txtSellingPrice.getText(), txtSubTotal.getText()});
+                cmbItemCode.getSelectedItem() + " " + cmbItemName.getSelectedItem(),
+                txtBatchID.getText(), txtQuantity.getText(), txtBuyingPrice.getText(),
+                txtSellingPrice.getText(), txtSubTotal.getText()});
         }
         calculateTotal();
         refreshFields();
@@ -812,12 +811,20 @@ public class StockFrame extends javax.swing.JInternalFrame implements Observer {
                     }
                 }
 
-                Date date = new Date(Calendar.getInstance().getTimeInMillis());
-                Time time = new Time(Calendar.getInstance().getTimeInMillis());
+//                com.zegates.sanctus.services.remote.Date date = new com.zegates.sanctus.services.remote.Date();
+//                date.setDateA(dateSQL);
+//                com.zegates.sanctus.services.remote.Time time = new com.zegates.sanctus.services.remote.Time();
+//                time.setTimeA(timeSQL);
+                Date date = new java.util.Date(System.currentTimeMillis());
+
+                GregorianCalendar c = new GregorianCalendar();
+                c.setTime(date);
+                XMLGregorianCalendar date2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+
                 supplyOrder.setLogSession(mainFrame.getLogSession());
                 supplyOrder.setSupplier(supplier);
-                supplyOrder.setDateAdded(date);
-                supplyOrder.setTimeAdded(time);
+                supplyOrder.setDateAdded(date2);
+                supplyOrder.setTimeAdded(date2);
                 supplyOrder.setSupplyOrderDetails(supplyOrderDetails);
                 supplyOrder.setDiscount(0);
                 calculateTotal();
@@ -835,11 +842,11 @@ public class StockFrame extends javax.swing.JInternalFrame implements Observer {
                 refreshStockID();
                 setTablesToUpdate();
             }
-    //        System.gc();
+            //        System.gc();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error in adding "
                     + "Stock " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    //        System.gc();
+            //        System.gc();
         }
     }//GEN-LAST:event_btnAddOrderActionPerformed
 
@@ -885,15 +892,15 @@ public class StockFrame extends javax.swing.JInternalFrame implements Observer {
                 if (sods != null) {
                     for (SupplyOrderDetail supplyOrderDetail : sods) {
                         dtmSupplyDetail.addRow(new Object[]{
-                                    supplyOrderDetail.getSodid(),
-                                    supplyOrderDetail.getItem().getIid(),
-                                    supplyOrderDetail.getItem().getName(),
-                                    supplyOrderDetail.getItem().getManufacturer().getName(),
-                                    supplyOrderDetail.getQty(),
-                                    supplyOrderDetail.getRemainingQty(),
-                                    supplyOrderDetail.getBuyingPrice(),
-                                    supplyOrderDetail.getSellingPrice()
-                                });
+                            supplyOrderDetail.getSodid(),
+                            supplyOrderDetail.getItem().getIid(),
+                            supplyOrderDetail.getItem().getName(),
+                            supplyOrderDetail.getItem().getManufacturer().getName(),
+                            supplyOrderDetail.getQty(),
+                            supplyOrderDetail.getRemainingQty(),
+                            supplyOrderDetail.getBuyingPrice(),
+                            supplyOrderDetail.getSellingPrice()
+                        });
                     }
                 }
             }
@@ -915,11 +922,11 @@ public class StockFrame extends javax.swing.JInternalFrame implements Observer {
 
         if (!"".equals(txtSearch.getText())) {
             if (rbtnCompName.isSelected()) {
-                setTablesToUpdate(SupplyOrderJpaController.compNAME, txtSearch.getText());
+                setTablesToUpdate(SupplyOrderController.compNAME, txtSearch.getText());
             } else if (rbtnLocation.isSelected()) {
-                setTablesToUpdate(SupplyOrderJpaController.LOCATION, txtSearch.getText());
+                setTablesToUpdate(SupplyOrderController.LOCATION, txtSearch.getText());
             } else {
-                setTablesToUpdate(SupplyOrderJpaController.NAME, txtSearch.getText());
+                setTablesToUpdate(SupplyOrderController.NAME, txtSearch.getText());
             }
         } else {
             dtmSupply.setRowCount(0);
@@ -1107,12 +1114,12 @@ public class StockFrame extends javax.swing.JInternalFrame implements Observer {
         for (SupplyOrder supplyOrder : supplyOrders) {
             if (supplyOrder.getSoid() != -1L) {
                 dtmSupply.addRow(new Object[]{supplyOrder.getSoid(),
-                            supplyOrder.getSupplier().getCompName() + " - " + supplyOrder.getSupplier().getName(),
-                            supplyOrder.getTimeAdded(),
-                            supplyOrder.getDateAdded(),
-                            supplyOrder.getDiscount(),
-                            supplyOrder.getTotal()
-                        });
+                    supplyOrder.getSupplier().getCompName() + " - " + supplyOrder.getSupplier().getName(),
+                    supplyOrder.getTimeAdded(),
+                    supplyOrder.getDateAdded(),
+                    supplyOrder.getDiscount(),
+                    supplyOrder.getTotal()
+                });
             }
         }
 //        System.gc();
@@ -1136,7 +1143,7 @@ public class StockFrame extends javax.swing.JInternalFrame implements Observer {
         if (!"".equals(txtQuantity.getText()) && !"".equals(txtBuyingPrice.getText())) {
             double qty = Double.parseDouble(txtQuantity.getText());
             double buyingPrice = Double.parseDouble(txtBuyingPrice.getText());
-            
+
             txtSubTotal.setText(OtherController.formatPrice(qty * buyingPrice));
         }
 //        System.gc();
@@ -1186,14 +1193,14 @@ public class StockFrame extends javax.swing.JInternalFrame implements Observer {
                 && !itemCode.equals("No Match Found")
                 && validNumbers) {
             enableDetails();
-    //        System.gc();
+            //        System.gc();
             return true;
         } else {
             if (showProofs) {
                 System.out.println("Disabled " + validNumbers + " " + manufacturer + " " + itemCode + " " + itemName);
             }
             disableDetails();
-    //        System.gc();
+            //        System.gc();
             return false;
         }
     }
@@ -1236,7 +1243,7 @@ public class StockFrame extends javax.swing.JInternalFrame implements Observer {
         for (SupplyOrder supply : supplyOrders) {
             if (supply.getSoid() != -1) {
                 dtmSupply.addRow(new Object[]{supply.getSoid(), supply.getSupplier().getName(),
-                            supply.getTimeAdded(), supply.getDateAdded(), supply.getDiscount(), supply.getTotal()});
+                    supply.getTimeAdded(), supply.getDateAdded(), supply.getDiscount(), supply.getTotal()});
             }
         }
         if (supplyOrders.isEmpty()) {
@@ -1254,7 +1261,7 @@ public class StockFrame extends javax.swing.JInternalFrame implements Observer {
         List<SupplyOrder> supplyOrders = sojc.findSupplyOrderByColumn(column, keyWord);
         for (SupplyOrder supply : supplyOrders) {
             dtmSupply.addRow(new Object[]{supply.getSoid(), supply.getSupplier().getName(),
-                        supply.getTimeAdded(), supply.getDateAdded(), supply.getDiscount(), supply.getTotal()});
+                supply.getTimeAdded(), supply.getDateAdded(), supply.getDiscount(), supply.getTotal()});
         }
         if (supplyOrders.isEmpty()) {
             labelerror.setText("No Such Supplier in Orders");

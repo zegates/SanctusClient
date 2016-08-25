@@ -15,6 +15,9 @@ import javax.swing.JOptionPane;
 import agency.persistance.factory.ControllerFactory;
 import com.zegates.sanctus.services.remote.Supplier;
 import com.zegates.sanctus.services.remote.SupplyOrder;
+import java.util.GregorianCalendar;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  *
@@ -49,8 +52,8 @@ public class UpdateSupplyOrderFrame extends javax.swing.JDialog {
         txtTotal.setText(objects[4] + "");
         total = (double) objects[4];
 
-        imgRight = new ImageIcon(getClass().getResource("/tireshop/img/right.png"));
-        imgWrong = new ImageIcon(getClass().getResource("/tireshop/img/wrong.png"));
+        imgRight = new ImageIcon(getClass().getResource("/agency/img/right.png"));
+        imgWrong = new ImageIcon(getClass().getResource("/agency/img/wrong.png"));
         validation();
         setId();
         setLocationRelativeTo(null);
@@ -260,10 +263,21 @@ public class UpdateSupplyOrderFrame extends javax.swing.JDialog {
 
     private void btnUpdateSuppyOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateSuppyOrderActionPerformed
         try {
+            
+            Date dateSQL = new Date(Calendar.getInstance().getTimeInMillis());
+            Time timeSQL = new Time(Calendar.getInstance().getTimeInMillis());
+//            com.zegates.sanctus.services.remote.Date date = new com.zegates.sanctus.services.remote.Date();
+//            date.setDateA(dateSQL);
+//            com.zegates.sanctus.services.remote.Time time = new com.zegates.sanctus.services.remote.Time();
+//            time.setTimeA(timeSQL);
+            java.util.Date date = new java.util.Date(System.currentTimeMillis());
+              GregorianCalendar c = new GregorianCalendar();
+                    c.setTime(date);
+                    XMLGregorianCalendar date2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
             SupplyOrder order = sojc.findSupplyOrder(Long.parseLong(txtOrderID.getText()));
 
-            order.setDateAdded(new Date(Calendar.getInstance().getTimeInMillis()));
-            order.setTimeAdded(new Time(Calendar.getInstance().getTimeInMillis()));
+            order.setDateAdded(date2);
+            order.setTimeAdded(date2);
             order.setDiscount(Double.parseDouble(txtDiscount.getText()));
             order.setTotal(total - Double.parseDouble(txtDiscount.getText()));
             order.setSupplier(sjc.findSupplier((String) cmbSupplierName.getSelectedItem()));

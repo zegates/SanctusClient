@@ -25,6 +25,7 @@ import agency.persistance.controller.exceptions.NonexistentEntityException;
 import agency.persistance.controller.remote.OrdersController;
 import agency.persistance.controller.remote.SupplyOrderDetailController;
 import agency.persistance.factory.ControllerFactory;
+import com.zegates.sanctus.services.remote.LogSession;
 import com.zegates.sanctus.services.remote.OrderDetail;
 import com.zegates.sanctus.services.remote.Orders;
 import com.zegates.sanctus.services.remote.SupplyOrderDetail;
@@ -572,14 +573,14 @@ public class CustomerDetails extends javax.swing.JDialog {
                 address = "No Address";
             }
             JRTableModelDataSource jrt = new JRTableModelDataSource(addOrdersFrame.getDtmOrder());
-            String repSource = "./src/tireshop/reports/OrderPosBill.jrxml";
+            String repSource = "./src/agency/reports/OrderPosBill.jrxml";
             Map<String, Object> param = new HashMap<String, Object>();
 
 
             param.put("Date", orders.getDateAdded().toString());
             param.put("CustName", name);
             param.put("Time", orders.getTimeAdded().toString());
-            param.put("Orderid", "SE" + orders.getLogSession().getSeid() + "-"
+            param.put("Orderid", "SE" + ((LogSession)orders.getLogSession()).getSeid() + "-"
                     + OtherController.formatCode("OD", orders.getOid(), 8));
             param.put("Total", OtherController.formatPrice(orders.getTotal() - orders.getDiscount()));
 

@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import agency.other.LReader;
-import agency.persistance.controller.OrdersJpaController;
+import agency.persistance.controller.remote.OrdersController;
 import agency.persistance.factory.ControllerFactory;
 import agency.remote.DBBackup;
 
@@ -106,7 +106,7 @@ public class Splash extends javax.swing.JFrame {
                             } else {
 //                                JOptionPane.showMessageDialog(null, "Your product is not licensed\n"
 //                                        + "Please contact the operator.", "Version Invalid", JOptionPane.INFORMATION_MESSAGE);
-                                OrdersJpaController ojc = ControllerFactory.getOrdersJpaController();
+                                OrdersController ojc = ControllerFactory.getOrdersController();
                                 int oc = ojc.getOrdersCount();
                                 if (oc >= 50) {
 
@@ -215,7 +215,7 @@ public class Splash extends javax.swing.JFrame {
 //                }
 //                if (value == 100) {
 //
-//                    OrdersJpaController ojc = ControllerFactory.getOrdersJpaController();
+//                    OrdersController ojc = ControllerFactory.getOrdersController();
 //                    int oc = ojc.getOrdersCount();
 //                    if (oc > 50) {
 //

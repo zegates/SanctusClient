@@ -14,6 +14,9 @@ import agency.persistance.controller.exceptions.NonexistentEntityException;
 import agency.persistance.controller.remote.SupplierController;
 import agency.persistance.factory.ControllerFactory;
 import com.zegates.sanctus.services.remote.Supplier;
+import java.util.GregorianCalendar;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  *
@@ -306,24 +309,38 @@ public class UpdateSupplierFrame extends javax.swing.JDialog {
 
     private void btnUpdateSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateSupplierActionPerformed
         try {
-            Supplier supplier =sjc.findSupplier(Long.parseLong(txtSupID.getText()));
+
+            Date dateSQL = new Date(Calendar.getInstance().getTimeInMillis());
+            Time timeSQL = new Time(Calendar.getInstance().getTimeInMillis());
+//            com.zegates.sanctus.services.remote.Date date = new com.zegates.sanctus.services.remote.Date();
+//            date.setDateA(dateSQL);
+//            com.zegates.sanctus.services.remote.Time time = new com.zegates.sanctus.services.remote.Time();
+//            time.setTimeA(timeSQL);
+
+            java.util.Date date = new java.util.Date(System.currentTimeMillis());
+
+            GregorianCalendar c = new GregorianCalendar();
+            c.setTime(date);
+            XMLGregorianCalendar date2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+
+            Supplier supplier = sjc.findSupplier(Long.parseLong(txtSupID.getText()));
             supplier.setAddress(txtLocation.getText());
             supplier.setCompName(txtCompTitle.getText());
             supplier.setEmail(txtCompEmail.getText());
-            supplier.setDateAdded(new Date(Calendar.getInstance().getTimeInMillis()));
+            supplier.setDateAdded(date2);
             supplier.setSuid(Long.parseLong(txtSupID.getText()));
             supplier.setName(txtCEO.getText());
-            supplier.setTimeAdded(new Time(Calendar.getInstance().getTimeInMillis()));
+            supplier.setTimeAdded(date2);
             supplier.setTpno(txtCompTel.getText());
             sjc.edit(supplier);
             JOptionPane.showMessageDialog(this, "Supplier Updated Successfully", "Insert Record", JOptionPane.INFORMATION_MESSAGE);
             setId();
         } catch (NonexistentEntityException ex) {
             JOptionPane.showMessageDialog(null, "Error occured in updating .\n"
-                                    + ex.getMessage(), "NonexistentEntity Error", JOptionPane.ERROR_MESSAGE);
+                    + ex.getMessage(), "NonexistentEntity Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error occured in updating .\n"
-                                    + ex.getMessage(), "NonexistentEntity Error", JOptionPane.ERROR_MESSAGE);
+                    + ex.getMessage(), "NonexistentEntity Error", JOptionPane.ERROR_MESSAGE);
         }
 //        System.gc();
     }//GEN-LAST:event_btnUpdateSupplierActionPerformed

@@ -469,7 +469,7 @@ public class ViewOrder extends javax.swing.JDialog {
 
     private void btnPrintOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintOrderActionPerformed
         JRTableModelDataSource jrt = new JRTableModelDataSource(dtm);
-        String repSource = "./src/tireshop/reports/OrderPosBill.jrxml";
+        String repSource = "./src/agency/reports/OrderPosBill.jrxml";
         Map<String, Object> param = new HashMap<String, Object>();
 
 

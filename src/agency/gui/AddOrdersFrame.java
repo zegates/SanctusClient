@@ -37,6 +37,12 @@ import com.zegates.sanctus.services.remote.Manufacturer;
 import com.zegates.sanctus.services.remote.OrderDetail;
 import com.zegates.sanctus.services.remote.Orders;
 import com.zegates.sanctus.services.remote.SupplyOrderDetail;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  *
@@ -76,8 +82,8 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
         this.mainFrame = mainFrame;
         search1 = new SwitchComboSearch();
         search = new ComboSearch();
-        imgRight = new ImageIcon(getClass().getResource("/tireshop/img/right.png"));
-        imgWrong = new ImageIcon(getClass().getResource("/tireshop/img/wrong.png"));
+        imgRight = new ImageIcon(getClass().getResource("/agency/img/right.png"));
+        imgWrong = new ImageIcon(getClass().getResource("/agency/img/wrong.png"));
         ijc = ControllerFactory.getItemController();
         mjc = ControllerFactory.getManufacturerController();
         sodjc = ControllerFactory.getSupplyOrderDetailController();
@@ -811,21 +817,23 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
 
     private void cmbManufacturerItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbManufacturerItemStateChanged
         String manuName = (String) cmbManufacturer.getSelectedItem();
-        Manufacturer manufacturer = mjc.findManufacturerForName(manuName);
-        cmbItemName.removeAllItems();
-        cmbItemCode.removeAllItems();
-        if (manufacturer != null) {
-            List<Item> items = manufacturer.getItems();
-            if (items != null) {
-                for (Item item : items) {
-                    cmbItemCode.addItem(OtherController.formatCode("I", item.getIid(), 8));
-                    cmbItemName.addItem(item.getName() + " - "
-                            + item.getMetric().getName());
+        if (manuName != null) {
+            Manufacturer manufacturer = mjc.findManufacturerForName(manuName);
+            cmbItemName.removeAllItems();
+            cmbItemCode.removeAllItems();
+            if (manufacturer != null) {
+                List<Item> items = manufacturer.getItems();
+                if (items != null) {
+                    for (Item item : items) {
+                        cmbItemCode.addItem(OtherController.formatCode("I", item.getIid(), 8));
+                        cmbItemName.addItem(item.getName() + " - "
+                                + item.getMetric().getName());
+                    }
                 }
             }
+            search1.refreshList(cmbItemName, cmbItemCode);
+            refreshBatchID();
         }
-        search1.refreshList(cmbItemName, cmbItemCode);
-        refreshBatchID();
     }//GEN-LAST:event_cmbManufacturerItemStateChanged
     /**
      * When State changes indexes are switched in the cmbItemeCode Checks
@@ -1063,13 +1071,25 @@ public class AddOrdersFrame extends javax.swing.JInternalFrame implements Observ
             Date date = new Date(Calendar.getInstance().getTimeInMillis());
             Time time = new Time(Calendar.getInstance().getTimeInMillis());
 
-            com.zegates.sanctus.services.remote.Date dateJax = new com.zegates.sanctus.services.remote.Date();
-            com.zegates.sanctus.services.remote.Time timeJax = new com.zegates.sanctus.services.remote.Time();
-            dateJax.setDate(date);
-            timeJax.setTime(time);
+//            com.zegates.sanctus.services.remote.Date dateJax = new com.zegates.sanctus.services.remote.Date();
+//            com.zegates.sanctus.services.remote.Time timeJax = new com.zegates.sanctus.services.remote.Time();
+//            dateJax.setDateA(date);
+//            timeJax.setTimeA(time);
             order.setOrderDetails(orderDetails);
-            order.setDateAdded(dateJax);
-            order.setTimeAdded(timeJax);
+//            order.setDateAdded(dateJax);
+//            order.setTimeAdded(timeJax);
+            java.util.Date date1 = new java.util.Date(System.currentTimeMillis());
+
+            GregorianCalendar c = new GregorianCalendar();
+            c.setTime(date);
+            XMLGregorianCalendar date2 = null;
+            try {
+                date2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+            } catch (DatatypeConfigurationException ex) {
+                Logger.getLogger(AddOrdersFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            order.setDateAdded(date2);
+            order.setTimeAdded(date2);
             order.setOid(ojc.getLatesOrdersID() + 1L);
             order.setDiscount(discount);
             order.setTotal(total);

@@ -14,6 +14,9 @@ import agency.persistance.controller.exceptions.NonexistentEntityException;
 import agency.persistance.controller.remote.LogUserController;
 import agency.persistance.factory.ControllerFactory;
 import com.zegates.sanctus.services.remote.LogUser;
+import java.util.GregorianCalendar;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  *
@@ -35,7 +38,7 @@ public class UpdateUser extends javax.swing.JDialog {
         txtAddress.setText(user.getAddress());
         txtTPNO.setText(user.getTpno());
         setLocationRelativeTo(null);
-        lujc = ControllerFactory.getLogUserJpaController();
+        lujc = ControllerFactory.getLogUserController();
     }
 
     /**
@@ -311,6 +314,14 @@ public class UpdateUser extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelBtActionPerformed
 
     private void btmupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmupdateActionPerformed
+        Date dateSQL = new Date(Calendar.getInstance().getTimeInMillis());
+        Time timeSQL = new Time(Calendar.getInstance().getTimeInMillis());
+//        com.zegates.sanctus.services.remote.Date date = new com.zegates.sanctus.services.remote.Date();
+//        date.setDateA(dateSQL);
+//        com.zegates.sanctus.services.remote.Time time = new com.zegates.sanctus.services.remote.Time();
+//        time.setTimeA(timeSQL);
+        java.util.Date date = new java.util.Date(System.currentTimeMillis());
+
         String pass = new String(txtPasswordOld.getPassword());
         if (pass.equals(user.getPw())) {
             String name = txtName.getText();
@@ -321,16 +332,21 @@ public class UpdateUser extends javax.swing.JDialog {
             String pass2 = new String(txtPassword1.getPassword());
             if (pass1.equals(pass2)) {
                 try {
+
+                    GregorianCalendar c = new GregorianCalendar();
+                    c.setTime(date);
+                    XMLGregorianCalendar date2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+
                     user.setAddress(address);
                     user.setName(name);
-                    user.setDateAdded(new Date(Calendar.getInstance().getTimeInMillis()));
-                    user.setTimeAdded(new Time(Calendar.getInstance().getTimeInMillis()));
+                    user.setDateAdded(date2);
+                    user.setTimeAdded(date2);
                     user.setTpno(tpNo);
                     user.setUsername(username);
                     user.setPw(pass1);
-                    
+
                     lujc.edit(user);
-                    
+
                     JOptionPane.showMessageDialog(this, "Successfull", "User Update", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
                 } catch (NonexistentEntityException ex) {
@@ -338,7 +354,7 @@ public class UpdateUser extends javax.swing.JDialog {
                 } catch (Exception ex) {
                     Logger.getLogger(UpdateUser.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             } else {
                 JOptionPane.showMessageDialog(this, "Password didn't match", "User Insert", JOptionPane.ERROR_MESSAGE);
             }

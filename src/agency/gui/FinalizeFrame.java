@@ -33,6 +33,10 @@ import com.zegates.sanctus.services.remote.LogSession;
 import com.zegates.sanctus.services.remote.OrderDetail;
 import com.zegates.sanctus.services.remote.Orders;
 import com.zegates.sanctus.services.remote.SupplyOrder;
+import java.util.GregorianCalendar;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  *
@@ -124,10 +128,12 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
                 if (o1 instanceof Orders && o2 instanceof Orders) {
                     Orders ob1 = (Orders) o1;
                     Orders ob2 = (Orders) o2;
+                    
+                    
 
-                    if (ob1.getDateAdded().getDate().after(ob2.getDateAdded().getDate())) {
+                    if (ob1.getDateAdded().toGregorianCalendar().getTime().after(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                         return 1;
-                    } else if (ob1.getDateAdded().getDate().before(ob2.getDateAdded().getDate())) {
+                    } else if (ob1.getDateAdded().toGregorianCalendar().getTime().before(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                         return -1;
                     } else {
                         return 0;
@@ -137,9 +143,9 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
                     Orders ob1 = (Orders) o1;
                     SupplyOrder ob2 = (SupplyOrder) o2;
 
-                    if (ob1.getDateAdded().getDate().after(ob2.getDateAdded().getDate())) {
+                    if (ob1.getDateAdded().toGregorianCalendar().getTime().after(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                         return 1;
-                    } else if (ob1.getDateAdded().getDate().before(ob2.getDateAdded().getDate())) {
+                    } else if (ob1.getDateAdded().toGregorianCalendar().getTime().before(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                         return -1;
                     } else {
                         return 0;
@@ -149,9 +155,9 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
                     SupplyOrder ob1 = (SupplyOrder) o1;
                     Orders ob2 = (Orders) o2;
 
-                    if (ob1.getDateAdded().getDate().after(ob2.getDateAdded().getDate())) {
+                    if (ob1.getDateAdded().toGregorianCalendar().getTime().after(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                         return 1;
-                    } else if (ob1.getDateAdded().getDate().before(ob2.getDateAdded().getDate())) {
+                    } else if (ob1.getDateAdded().toGregorianCalendar().getTime().before(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                         return -1;
                     } else {
                         return 0;
@@ -161,9 +167,9 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
                     SupplyOrder ob1 = (SupplyOrder) o1;
                     SupplyOrder ob2 = (SupplyOrder) o2;
 
-                    if (ob1.getDateAdded().getDate().after(ob2.getDateAdded().getDate())) {
+                    if (ob1.getDateAdded().toGregorianCalendar().getTime().after(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                         return 1;
-                    } else if (ob1.getDateAdded().getDate().before(ob2.getDateAdded().getDate())) {
+                    } else if (ob1.getDateAdded().toGregorianCalendar().getTime().before(ob2.getDateAdded().toGregorianCalendar().getTime())) {
                         return -1;
                     } else {
                         return 0;
@@ -534,7 +540,7 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
     private void btnPrintReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintReportsActionPerformed
         try {
             JRTableModelDataSource jrt = new JRTableModelDataSource(dtm);
-            String repSource = "./src/tireshop/reports/FinalReport1.jrxml";
+            String repSource = "./src/agency/reports/FinalReport1.jrxml";
             Map<String, Object> param = new HashMap<>();
 
             param.put("SessionID", OtherController.formatCode("SE", session.getSeid(), 8));
@@ -561,13 +567,27 @@ public class FinalizeFrame extends javax.swing.JInternalFrame {
         if (conf == 0) {
             Date dateSQL = new Date(Calendar.getInstance().getTimeInMillis());
             Time timeSQL = new Time(Calendar.getInstance().getTimeInMillis());
-            com.zegates.sanctus.services.remote.Date date = new com.zegates.sanctus.services.remote.Date();
-            date.setDate(dateSQL);
-            com.zegates.sanctus.services.remote.Time time = new com.zegates.sanctus.services.remote.Time();
-            time.setTime(timeSQL);
+//            com.zegates.sanctus.services.remote.Date date = new com.zegates.sanctus.services.remote.Date();
+//            date.setDateA(dateSQL);
+//            com.zegates.sanctus.services.remote.Time time = new com.zegates.sanctus.services.remote.Time();
+//            time.setTimeA(timeSQL);
             session.setFinalised(true);
-            session.setDateEnded(date);
-            session.setTimeEnded(time);
+
+//            session.setDateEnded(date);
+//            session.setTimeEnded(time);
+            java.util.Date date = new java.util.Date(System.currentTimeMillis());
+
+            GregorianCalendar c = new GregorianCalendar();
+            c.setTime(date);
+            XMLGregorianCalendar date2 = null;
+            try {
+                date2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+            } catch (DatatypeConfigurationException ex) {
+                Logger.getLogger(FinalizeFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            session.setDateEnded(date2);
+            session.setTimeEnded(date2);
             try {
                 lsjc.edit(session);
                 JOptionPane.showMessageDialog(null, "Your session is successfully "
